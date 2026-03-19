@@ -1,0 +1,985 @@
+﻿/*--定義頁面的背景圖片--*/
+BODY
+{
+	margin: 0px;
+	background-color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 頁尾 */
+#font_footer
+{
+	color: #979797;
+	text-align: center;
+	font-size: small;
+	padding: 10px 0 0 0;
+}
+
+/* 系統名稱 */
+.font_title_r
+{
+	padding: 10px;
+	color: #1874CD;
+	font-size: 30px;
+	font-weight: bold;
+	font-style: italic;
+	font-family: '標楷體';
+	line-height: 200%;
+	vertical-align: middle;
+}
+
+/* 登入帳號資訊 */
+.font_user
+{
+	color: #004676;
+	font-size: small;
+	font-weight: bold;
+}
+
+.font_normal
+{	
+	font-size: small;	
+}
+
+/*按鈕*/
+input.btn_grey
+{
+	background: url(../images/btn-bg_grey.jpg) repeat-x;
+	padding: 3px;
+	color: #333333;
+	width: 80px;
+	height: 26px;
+	border: 1px solid #adadad;
+}
+input.btn_grey_w
+{
+	background: url(../images/btn-bg_grey.jpg) repeat-x;
+	padding: 3px;
+	color: #333333;
+	width: 90px;
+	height: 26px;
+	border: 1px solid #adadad;
+}
+
+/* login */
+.font_login
+{
+	font-size: x-small;
+	text-align: right;
+}
+.font_login2
+{
+	background-image: url(images/login/login_text.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* 最外面一層 */
+table.content
+{
+	border: 0;
+	width: 98%;
+	margin: 0 5px 0 5px;
+	font-size: small;
+	padding: 0;
+}
+
+/* 外面的黃框 */
+td.framelefthead
+{
+	width: 15px;
+	height: 13px;
+	background: url(images/frame-headbg.jpg) left top no-repeat;
+	padding: 0;
+}
+td.framerighthead
+{
+	width: 15px;
+	height: 13px;
+	background: url(images/frame-headbg.jpg) right top no-repeat;
+	padding: 0;
+}
+td.framehead
+{
+	height: 13px;
+	background: url(images/frame-headbg.jpg) left top repeat-x;
+	background-position: -15px 0;
+	padding: 0;
+}
+td.frameleftfoot
+{
+	width: 15px;
+	height: 13px;
+	background: url(images/frame-footbg.jpg) left bottom no-repeat;
+	padding: 0;
+}
+td.framerightfoot
+{
+	width: 15px;
+	height: 13px;
+	background: url(images/frame-footbg.jpg) right bottom no-repeat;
+	padding: 0;
+}
+td.framefoot
+{
+	height: 15px;
+	background: url(images/frame-footbg.jpg) left bottom repeat-x;
+	background-position: -15px 0px;
+	padding: 0;
+}
+td.frameleft
+{
+	width: 15px;
+	background: url(images/frame-leftbg.jpg) left top repeat-y;
+	padding: 0;
+}
+td.frameright
+{
+	width: 15px;
+	background: url(images/frame-rightbg.jpg) right top repeat-y;
+	padding: 0;
+}
+td.framecenter
+{
+	padding: 0;
+	background: #ffffff;
+}
+/*定義table外的文字樣式*/
+.text
+{
+	font-size: 16px;
+}
+
+/*--定義登入資訊樣式--*/
+.logininfo
+{
+	font-family: Times New Roman;
+	color: #0087c7;
+}
+
+/*--定義Table框架樣式--*/
+.TableStley
+{
+	background-color: #FFFFFF;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #333333;
+}
+
+
+
+/*--在Table中定義菜單功能名稱樣式(Table表格的標題部分)--*/
+.TableTitle
+{
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-align: center;
+	color: #0E97C0;
+}
+
+.SubTableTitle
+{
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+/*--在Table中定義表格列標題樣式(Table表格的表頭部分)--*/
+.TableHead
+{
+	background-color: #FEEF98;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5px;
+	font-size: 16px;
+}
+.TableHead2
+{
+	background-color: #F7FDDF;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5px;
+	font-size: 16px;
+}
+
+/*--在Table中定義表格列標題樣式(Table表格的表尾部分)--*/
+.TableBottom
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FEEF98', endColorstr='#FED56C', gradientType='0');
+	font-size: 12px;
+}
+
+/*--在Table中定義td文字樣式--*/
+.TableLabel
+{
+	background-color: #FEF0A3;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+}
+/*--定義必填欄位*樣式*/
+.TableLableNNull
+{
+	color: #FF0000;
+}
+
+/*--在Table中定義td文字對應的值樣式--*/
+.TableLabelText
+{
+	font-family: "新細明體";
+	color: #1E1E48;
+	padding: 5px;
+	line-height: 20px;
+	font-size: 16px;
+}
+
+
+/*--在Table中定義表格單元樣式--*/
+.TableContent
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#E4E4F2', endColorstr='#C1C8D6', gradientType='0');
+}
+
+/*--定義在Table中Button樣式(在Table表的內容行中)--*/
+.TableButton
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #99CCFF;
+}
+.TableButton2
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #E6F4B1;
+}
+.TableButton3
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #C4E1E1;
+}
+/*--定義在Table中Button樣式(在Table表的內容行中)--*/
+.TableButtonDel
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #FF9797;
+}
+
+/*--定義在Table中Button樣式(不在Table表的內容行中)--*/
+.Button
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #FFCC66;
+}
+
+
+/*按鈕*/
+input.btn_submit
+{
+	background: url(../images/btn-bg_grey.jpg) repeat-x;
+	padding: 3px;
+	color: #333333;
+	width: 80px;
+	height: 26px;
+	border: 1px solid #adadad;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+/*--定義表格中的表格*/
+.tabletable
+{
+	background-color: #FFFFFF;
+	padding: 5px;
+	line-height: 15px;
+	border: 1px solid #CCCCCC;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #333333;
+}
+/*在table中的table的td文字樣式*/
+.Ta_Ta_Label
+{
+	text-align: center;
+	font-family: "新細明體";
+	font-size: 16px;
+	line-height: 20px;
+	color: #333333;
+}
+/*在table中的table的td文字樣式*/
+.Ta_Ta_Label1
+{
+	background-color: #EEEEEE;
+	padding: 5px;
+}
+/*--在Table中定義td文字對應的值樣式--*/
+.Ta_Ta_LabelText
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	background-color: #FFFFFF;
+	padding: 5px;
+	line-height: 15px;
+}
+/*--定義TextBox控件的樣式--*/
+.TextBox
+{
+	border: 1px solid #BDBEDB;
+	height: 20px;
+	line-height: 170%;
+	font-family: @細明體;
+}
+
+/*--定義Select控件的樣式--*/
+.Select
+{
+	font-weight: normal;
+	font-size: 16px;
+}
+
+/*--定義頁面中的超鏈接樣式表--*/
+a:link
+{
+	text-decoration: none;
+	color: #004676;
+	font-size: small;
+	font-weight: bold;
+}
+a:active
+{
+	text-decoration: blink;
+}
+a:hover
+{
+	text-decoration: underline;
+	color: #004676;
+}
+a:visited
+{
+	text-decoration: none;
+	color: #004676;
+}
+
+
+
+.linkpage
+{
+	font-size: 12px;
+}
+/*--定義頁面中的次標題樣式表--*/
+.headline
+{
+	font-size: 16px;
+	color: #445566;
+	font-weight: bold;
+}
+/*--在次要Table中定義td文字樣式--*/
+.TableLabel_2
+{
+	background-color: #E7E7E7;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-size: 16px;
+}
+/*--定義列表樣式*/
+.Listtable1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	background-color: #FFFFFF;
+	padding: 5px;
+	height: 30px;
+	font-size: 16px;
+}
+.Listtable2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	background-color: #fffbf0;
+	padding: 5px;
+	height: 30px;
+	font-size: 16px;
+}
+
+/*--定義備註樣式*/
+.TableLableNote
+{
+	color: #CC0000;
+	font-size: 12px;
+}
+/*--定義附加說名樣式*/
+.TableLableMemo
+{
+	color: #39c;
+	font-size: 12px;
+}
+/*--定義郵件動態資料*/
+.maildata
+{
+	color: #34599E;
+	font-family: "新細明體";
+	font-size: 16px;
+	line-height: 20px;
+}
+/*--定義廣告售出狀態*/
+.ad_sell1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	padding: 5px;
+	line-height: 25px;
+	background-color: #FFE6EA;
+	text-align: center;
+}
+/*--定義廣告未售出狀態*/
+.ad_sell0
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	padding: 5px;
+	line-height: 25px;
+	background-color: #FFFFFF;
+	text-align: center;
+}
+/*--定義廣告分析-點閱率儲存格格式*/
+.ad_analyse0
+{
+	background-color: #F6F6F6;
+	text-align: right;
+}
+/*--定義廣告分析-銷售數儲存格格式*/
+.ad_analyse1
+{
+	background-color: #FFFFFF;
+	text-align: right;
+}
+/*--定義廣告-刊登日期的日曆天格式*/
+.tag_yellow
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	background-color: #FEF4D3;
+	padding-left: 10px;
+	vertical-align: middle;
+	color: #FFFFFF;
+}
+/*--定義現在位置格式*/
+.site_text
+{
+	font-size: 16px;
+	font-family: 新細明體;
+	color: #666666;
+	padding-top: 7px;
+	line-height: 250%;
+}
+
+/*--定義表格的標題漸層背景色*/
+.tabletitlebar
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(gradientType='0',startColorstr='#6699CC',endColorstr='#FFFFFF');
+}
+
+/*--在次要Table中定義td文字樣式--*/
+.TableLabel_3
+{
+	background-color: #EFFFBF;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-size: 16px;
+}
+/*--定義在查詢群組的樣式(不在Table表的內容行中)--*/
+.SearchGroup-y
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #FFCC00;
+	background-color: #FFFFDF;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+
+/*--定義在查詢群組的樣式(不在Table表的內容行中)--*/
+.SearchGroup-P
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #FF99FF;
+	background-color: #FFE9FF;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+
+/*--定義在查詢群組的樣式(不在Table表的內容行中)--*/
+.SearchGroup-B
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #66CCFF;
+	background-color: #DFF4FF;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+/*--定義在查詢群組的樣式(不在Table表的內容行中)--*/
+.SearchGroup-G
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #C9F52E;
+	background-color: #EFFCC2;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+/*--定義列印的表格樣式--*/
+.print_table_height
+{
+	height: 24px;
+	font-size: 16px;
+}
+/*--定義列印的表格標題欄位樣式--*/
+.print_table_title
+{
+	height: 24px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 16px;
+}
+/*--定義列印的表格標題樣式--*/
+.print_table_headline
+{
+	font-size: 20px;
+	color: #445566;
+	font-weight: bold;
+}
+/*--在次要Table中定義td文字樣式--*/
+.TableLabel_4
+{
+	background-color: #FFE6FF;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-size: 16px;
+}
+/*--定義特殊名詞標示樣式--*/
+.keyword
+{
+	text-align: left;
+	color: #0066CC;
+	font-weight: bold;
+	/*text-decoration: underline;*/
+	font-size:larger;
+}
+
+/*--定義GridView樣式--*/
+.GridView
+{
+	background-color: #FFFFFF;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #333333;
+}
+
+.currency
+{
+	text-align: right;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #0066CC;
+	font-weight: bold;
+}
+
+/*表格標題*/
+.table_title
+{
+	background-color: #FEEF98;
+	color: #222a68;
+	text-align: center;
+	line-height: 140%;
+	font-weight: bold;
+	border: 1px dotted #edd978;
+	width: 998px;
+	font-size: small;
+	height: 22px;
+	padding-top: 3px;
+}
+
+
+/* 表格(單筆格式) */
+.table_sn
+{
+	color: #000000;
+	font-size: small;
+	line-height: 240%;
+	vertical-align: middle;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	border-collapse: collapse;
+}
+/* 表格(多筆格式) */
+.table_mt {
+    color: #000000;
+    font-size: small;
+    line-height: 190%;
+    vertical-align: middle;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-collapse: collapse;
+}
+/* 表格灰實線框 */
+.table_border
+{
+	border: 1px solid #d0d0bf;
+}
+
+/* 表頭預設(置右) */
+.td_head
+{
+	color: #222a68;
+	text-align: right;
+	font-weight: normal;
+	padding: 2px;
+	border-bottom: 1px dotted #d0d0bf;
+	border-right: 1px dotted #d0d0bf;
+	padding-right: 5px;
+}
+
+/* 特殊表頭 */
+/** 表頭(水平) **/
+.td_headhrz
+{
+	background-color: #deebfe;
+	color: #222a68;
+	text-align: center;
+	line-height: 140%;
+	font-weight: normal;
+	border: 1px dotted #edd978;
+}
+/** 表頭(垂直) **/
+.td_headvrc
+{
+	background-color: #ddf5b7;
+	color: #222a68;
+	line-height: 180%;
+	font-weight: normal;
+	border: 1px dotted #edd978;
+}
+/* 合計*/
+.td_headttl
+{
+	background-color: #ffdada;
+	color: #222a68;
+	line-height: 180%;
+	font-weight: normal;
+	border: 1px dotted #edd978;
+}
+
+/* 內文預設(置左) */
+.td_cont
+{
+	text-align: left;
+	font-weight: normal;
+	border-bottom: 1px dotted #d0d0bf;
+	border-right: 1px solid #d0d0bf;
+	padding-left: 5px;
+}
+.td_cont /*a:link,*/ a:visited, a:active
+{
+	color: #333333;
+}
+/* 內文多筆(無對齊方式) */
+.td_cont3
+{
+	font-weight: normal;
+  
+	border: 1px dotted #d5d5d5;
+}
+/**/
+
+/* 背景變化 */
+/* 表頭分隔(置左) */
+.td_block
+{
+	background-color: #E3E6EA;
+	line-height: 14pt;
+	text-align: left;
+}
+/* 表頭(強調) */
+.td_highh
+{
+	background-color: #CBDFFE;
+}
+/* 表頭(強調粉紅) */
+.td_highh2
+{
+	background-color: #F9E0FC;
+}
+/* 內文(強調) */
+.td_highc
+{
+	background-color: #ebf3ff;
+}
+/* 內文(強調粉紅) */
+.td_highc2
+{
+	background-color: #FCF7FD;
+}
+
+
+/* 文字變化 */
+/* 置左 */
+.td_left
+{
+	text-align: left;
+	padding-left: 5px;
+}
+/* 置中 */
+.td_center
+{
+	text-align: center;
+   
+}
+/* 置右 */
+.td_right
+{
+	text-align: right;
+	padding-right: 5px;
+}
+/* 底線 */
+.td_underline
+{
+	text-decoration: underline;
+}
+
+/* 必填欄位(紅字) */
+.td_must
+{
+	color: #dc1c11;
+}
+/* 必填欄位(部分情況必填) */
+.td_may
+{
+	color: #2828FF;
+}
+/* 說明文字(灰字) */
+.td_memo
+{
+	color: #666666;
+}
+/* 說明文字(綠字) */
+.td_color
+{
+	color: #367033;
+}
+/* fielsset色顏色 */
+.td_fieldset
+{
+	color: #222a68;
+	font-weight: bold;
+	padding: 2px;
+}
+
+/* 強調粗體 */
+.td_bold
+{
+	font-weight: bold;
+}
+/* 正常字體 */
+.td_nobold
+{
+	font-weight: normal;
+}
+
+/* 字高12 */
+.td_line12
+{
+	line-height: 12pt;
+}
+/* 字高15 */
+.td_line15
+{
+	line-height: 15pt;
+}
+/* 字高18 */
+.td_line18
+{
+	line-height: 18pt;
+}
+
+.td_small
+{
+	font-size: small;
+}
+
+/* 字體小一號 */
+.td_xsmall
+{
+	font-size: x-small;
+}
+/* 字體大號 */
+.td_xlarge
+{
+	font-size: x-large;
+}
+
+/*查詢條件字樣*/
+.color_fieldset
+{
+	margin-right: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+}
+.font_fieldset
+{
+	font-size: small;
+	font-weight: bold;
+	color: #222a68;
+	padding: 2px;
+}
+
+.table_panel
+{
+	display:inline;
+	
+}
+	
+/*CheckBoxList選項有2行以上*/
+.cbl_fieldset
+{
+	line-height: 0.8;		
+}
+
+.cbl_fieldset label {       
+        
+        padding-right:25px;
+	}
+		
+/* jquery-tabs格式 */
+
+.jquery-tabs
+{
+	background-color: #FAFAFA;
+}
+.jquery-tabs p span
+{
+	background-color: #EFEFEF;
+	border: 1px solid #CCCCCC;
+	cursor: pointer;
+	margin-right: 2px;
+	padding: 2px 3px;
+}
+.jquery-tabs p span.current
+{
+	background-color: #FAFAFA;
+	border-bottom-color: #fafafa;
+}
+.jquery-tabs p
+{
+	border-bottom: 1px solid #CCCCCC;
+	font-weight: bold;
+	padding: 0 10px 2px;
+}
+.jquery-tabs li
+{
+	border-bottom: 1px dotted #CCCCCC;
+	padding-bottom: 3px;
+	margin: 5px 0;
+}
+.jquery-tabs .mhot, .jquery-tabs.allhot
+{
+	display: none;
+}
+
+.ajax_tab_menu .ajax__tab_header /*整体按钮底样式*/
+{
+
+height:28px;
+font-size:12px;
+background:url("../images/Tab_Option_bg.gif") repeat-x bottom;
+
+}
+
+.ajax_tab_menu .ajax__tab_body /*资料区*/
+{
+
+font-size:12px;
+border:0px solid #999999;
+border-top:0;
+background-color:#ffffff;}
+
+.ajax_tab_menu .ajax__tab_tab /*预设样式*/
+{
+background:url("../images/Tab_Option_bg_OFF.gif") repeat-x;
+width:78px;
+height:28px;
+line-height:28px;
+text-align:center;
+margin-right:4px;
+margin:0;
+}
+.ajax_tab_menu .ajax__tab_hover .ajax__tab_tab /*鼠标经过样式*/
+{
+background:url("../images/Tab_Option_bg_ON.gif") repeat-x;
+width:78px;
+height:28px;
+color:#FFFFFF;
+line-height:28px;
+text-align:center;
+}
+
+.ajax_tab_menu .ajax__tab_active .ajax__tab_tab /*当前使用中样式*/
+{
+background:url("../images/Tab_Option_bg_ON.gif") repeat-x;)
+width:78px;
+height:28px;
+line-height:28px;
+text-align:center;
+color:#FFFFFF;
+}
+
+
+
+

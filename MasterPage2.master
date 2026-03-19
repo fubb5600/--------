@@ -1,0 +1,54 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage2.master.cs"
+    Inherits="MasterPage2" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <%=System.Web.Configuration.WebConfigurationManager.AppSettings["WebName"] %>
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <script src="../js/fill.js" type="text/javascript"></script>
+    <script src="../js/buttonAction.js" type="text/javascript"></script>
+    <script src="../js/Validate.js" type="text/javascript"></script>
+    <script src="../js/jquery-1.3.2.js" type="text/javascript"></script>
+    <script src="../js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.8.22.custom.min.js" type="text/javascript"></script>
+    <script src="../js/chineseDatepicker.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <link type="text/css" href="menu.css" rel="stylesheet" />
+    <link type="text/css" href="css/CommStyle.css" rel="stylesheet" />
+    <link type="text/css" href="css/jquery-ui-1.8.22.custom.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="background-color: #ffffff;">
+    <form id="aspnetForm" runat="server">
+    <div>
+        <asp:Panel ID="TaskPanel" runat="server">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </asp:Panel>
+        <asp:Panel ID="ResultPanel" runat="server" Visible="false">
+            <table border="0" align="center" width="650">
+                <tr style="height: 200px;">
+                    <td align="center" style="word-break: break-all">
+                        <asp:Label ID="ResultMsg" runat="server" Text="" CssClass="font_message_b"></asp:Label>
+                        <br />
+                        <asp:Label ID="ResultMsgDesc" runat="server" Text=""></asp:Label>
+                        <br />
+                        <asp:Button ID="ResultBack" runat="server" Text="返回" CssClass="btn_grey" OnClick="ResultBack_Click" />
+                        <asp:TextBox ID="nextPage" runat="server" Visible="False"></asp:TextBox>
+                        <asp:TextBox ID="pageParam" runat="server" Visible="False"></asp:TextBox>
+                    </td>
+                </tr>
+            </table>
+        </asp:Panel>
+    </div>
+    <asp:Label ID="sysLabel" runat="server" Visible="False">
+        <asp:TextBox ID="OLD_TASK" runat="server" Visible="False"></asp:TextBox>
+    </asp:Label>
+    <div id="copyright" style="display:none;">Copyright &copy; 2012 <a href="http://apycom.com/">Apycom jQuery Menus</a></div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,1767 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Collections;
+using System.Data;
+/// <summary>
+/// ReportModel 的摘要描述
+/// </summary>
+public class ReportModel : Model
+{
+    public override void doPageBreak(PageBreak pb, Form form, String pbKey)
+    {
+        if (pbKey.Equals("browse1"))
+        {
+            browse(pb, form);
+        }
+    }
+
+
+    private void browse(PageBreak pb, Form form)
+    {
+        //String sql = "select param_type, param_name, status, memo, create_date " +
+        //    " from a_sysparam_type ";
+
+        //String where = "where param_attr = 'U' ";
+
+
+
+        //sql = sql + where;
+
+        //pb.CommandSQL = sql;
+        //pb.OrderSQL = " create_date ";
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd001_Car(Form form)
+    {
+         //2024/07/19 改
+        //String sql = @"select distinct a.car_id, b.card_id, c.dep_no, b.card_no as car_no, c.fuel_std, c.car_type, e.keep_org, 
+        //    a.possess_start, a.possess_end, d.exec_start, d.exec_end, e.keep_start, e.keep_end 
+        //    from c_car_card a 
+        //    left join c_card_mst b on a.card_id = b.card_id 
+        //    left join c_car_mst c on a.car_id = c.car_id 
+        //    left join c_car_sts d on c.car_id = d.car_id 
+        //    left join c_keep_mst e on c.car_id = e.car_id 
+        //    where CONVERT(VARCHAR(10), possess_start,111) <= @end_date 
+        //    and (CONVERT(VARCHAR(10),possess_end,111) >= @start_date or possess_end is null) 
+        //    and CONVERT(VARCHAR(10), exec_start,111) <= @end_date 
+        //    and (CONVERT(VARCHAR(10),exec_end,111) >= @start_date or exec_end is null) 
+        //    and CONVERT(VARCHAR(10), keep_start,111) <= @end_date 
+        //    and (CONVERT(VARCHAR(10), keep_end,111) >= @start_date or keep_end is null) 
+        //    and d.status = 'O' and b.keep_org = e.keep_org ";
+
+
+        String sql = @"select distinct a.car_id, b.card_id, c.dep_no, b.card_no as car_no, c.fuel_std, c.car_type, e.keep_org, 
+            a.possess_start, a.possess_end, d.exec_start, d.exec_end, e.keep_start, e.keep_end 
+            from c_car_card a 
+            left join c_card_mst b on a.card_id = b.card_id 
+            left join c_car_mst c on a.car_id = c.car_id 
+            left join c_car_sts d on c.car_id = d.car_id 
+            left join c_keep_mst e on c.car_id = e.car_id 
+            where CONVERT(VARCHAR(10), possess_start,111) <= @end_date 
+            and (CONVERT(VARCHAR(10),possess_end,111) >= @start_date or possess_end is null) 
+            and CONVERT(VARCHAR(10), exec_start,111) <= @end_date 
+            and (CONVERT(VARCHAR(10),exec_end,111) >= @start_date or exec_end is null) 
+            and CONVERT(VARCHAR(10), keep_start,111) <= @end_date 
+            and (CONVERT(VARCHAR(10), keep_end,111) >= @start_date or keep_end is null) 
+            and d.status = 'O'  ";
+
+
+
+
+
+        if (!form.getValue("car_no").Equals(""))
+        {
+            sql += " and b.card_no like @car_no";
+            dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+        }
+
+        if (!form.getValue("dep_no").Equals(""))
+        {
+            sql += " and c.dep_no like @dep_no";
+            dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+        }
+
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            sql += " and e.keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+        }
+
+        if (!form.getValue("fuel_type").Equals(""))
+        {
+            sql += " and c.fuel_type in(" + handleMultiData("fuel_type", form.getValue("fuel_type")) + ")";
+        }
+
+
+        dao.CommandSQL = sql + "order by e.keep_org, c.dep_no, b.card_no ";
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    //public ArrayList TDOSd001_Car(Form form)
+    //{
+    //    String sql = "select a.car_id, b.dep_no, b.car_no, b.fuel_std, c.id_name as car_type, a.keep_org from c_keep_mst a " +
+    //        "left join c_car_mst b on a.car_id = b.car_id " +
+    //        "left join a_sysparam_data c on b.car_type =c.param_id and c.param_type = 'CAR_TYPE' " +
+    //        "left join c_car_sts d on a.car_id = d.car_id and CONVERT(VARCHAR(10), exec_start,111) <= @end_date " +
+    //        "and (CONVERT(VARCHAR(10),exec_end,111) >= @start_date or exec_end is null) " +
+    //        "where CONVERT(VARCHAR(10), keep_start,111) <= @end_date " +
+    //        "and (CONVERT(VARCHAR(10),keep_end,111) >= @start_date or keep_end is null) and d.status='O'";
+
+    //    if (!form.getValue("car_no").Equals(""))
+    //    {
+    //        sql += " and b.car_no like @car_no";
+    //        dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+    //    }
+
+    //    if (!form.getValue("dep_no").Equals(""))
+    //    {
+    //        sql += " and b.dep_no like @dep_no";
+    //        dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+    //    }
+
+    //    if (!form.getValue("keep_org").Equals(""))
+    //    {
+    //        sql += " and a.keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+    //    }
+
+    //    if (!form.getValue("fuel_type").Equals(""))
+    //    {
+    //        sql += " and b.fuel_type in(" + handleMultiData("fuel_type", form.getValue("fuel_type")) + ")";
+    //    }
+
+    //    sql += "union select a.car_id, b.dep_no, b.car_no, b.fuel_std, c.id_name as car_type, a.chg_org from c_chg_mst a " +
+    //        "left join c_car_mst b on a.car_id=b.car_id left join a_sysparam_data c on b.car_type =c.param_id and c.param_type = 'CAR_TYPE' " +
+    //        "where CONVERT(VARCHAR(10),chg_date,111)= @start_date and chg_rsn='R2' and a.chg_org in(" +
+    //        handleMultiData("chg_org", form.getValue("keep_org")) + ")";
+
+    //    dao.CommandSQL = sql + " order by b.dep_no";
+    //    dao.setParam("@start_date", form.getValue("start_date"));
+    //    dao.setParam("@end_date", form.getValue("end_date"));
+
+    //    dao.OrderSQL = "keep_org, dep_no, car_no";
+
+    //    return dao.search();
+    //}
+
+
+    /// <summary>
+    ///  服勤耗油統計(車輛)_勤務記錄天數
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public DataSet TDOSd001_Car_Days(Form form)
+    {
+        String where = string.Empty;
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select   c.car_id, c.keep_org, COUNT(work_day) as work_day from (" +
+            "select a.*, b.keep_org from(select distinct work_date as work_day, car_id from c_work_date where " +
+            "convert(varchar(10), work_date, 111) >= @start_date and convert(varchar(10), work_date, 111) <= @end_date" + where + " ) a " +
+            "left join c_keep_mst b on a.car_id=b.car_id and convert(varchar(10), a.work_day, 111)>= convert(varchar(10), b.keep_start, 111) " +
+            "and (convert(varchar(10), a.work_day, 111)<= convert(varchar(10), b.keep_end, 111) or b.keep_end is null)) c " +
+            "group by c.car_id, c.keep_org order by keep_org, car_id ";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        return dao.searchForDS();
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)_勤務記錄車次及里程數
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public DataSet TDOSd001_Car_Count(Form form)
+    {
+        String where = string.Empty;
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select car_id, work_org, sum(mileage) as sum_mileage, sum(car_count) car_count from v_work " +
+            "where convert(varchar(10), work_date, 111)>= @start_date and convert(varchar(10), work_date, 111) <= @end_date " + where +
+            "group by car_id,work_org ";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        return dao.searchForDS();
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)_里程數(起)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public DataSet TDOSd001_Car_MileS(Form form)
+    {
+        String where = string.Empty;
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select a.car_id, a.work_org, b.mileage_start from(select car_id, work_org, MIN(work_start) as work_start from v_work " +
+            "where convert(varchar(10), work_date, 111)>=@start_date and convert(varchar(10), work_date, 111) <= @end_date " + where +
+            "group by car_id, work_org) a left join v_work b  on a.car_id = b.car_id and a.work_start = b.work_start";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        return dao.searchForDS();
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)_里程數(迄)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public DataSet TDOSd001_Car_MileE(Form form)
+    {
+        String where = string.Empty;
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select a.car_id, a.work_org, b.mileage_end from(select car_id, work_org, MAX(work_end) as work_end from v_work " +
+            "where convert(varchar(10), work_date, 111)>=@start_date and convert(varchar(10), work_date, 111) <= @end_date " + where +
+            "group by car_id,work_org) a left join v_work b  on a.car_id = b.car_id and a.work_end = b.work_end and a.work_org=b.work_org";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        return dao.searchForDS();
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)_前一月份行駛里程數
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public DataSet TDOSd001_Car_LastM(Form form)
+    {
+        String where = string.Empty;
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select car_id, work_org, sum(mileage) as lastmonth_mileage from v_work " +
+            "where convert(varchar(10), work_date, 111)>= @lastmonth_start and convert(varchar(10), work_date, 111) <= @lastmonth_end " +
+            "group by car_id,work_org";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@lastmonth_start", form.getValue("lastmonth_start"));
+        dao.setParam("@lastmonth_end", form.getValue("lastmonth_end"));
+        return dao.searchForDS();
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)_去年同月行駛里程數
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public DataSet TDOSd001_Car_LastY(Form form)
+    {
+        String where = string.Empty;
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select car_id, work_org, sum(mileage) as lastyear_mileage from v_work " +
+            "where convert(varchar(10), work_date, 111)>=@lastyear_start and convert(varchar(10), work_date, 111) <= @lastyear_end " + where +
+            "group by car_id,work_org";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@lastyear_start", form.getValue("lastyear_start"));
+        dao.setParam("@lastyear_end", form.getValue("lastyear_end"));
+        return dao.searchForDS();
+    }
+
+
+    /// <summary>
+    /// 服勤耗油統計(車輛)_加油
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public DataSet TDOSd001_Car_Fuel(Form form)
+    {
+        String where = string.Empty;
+        String sReportYMFilter = string.Empty;
+
+        sReportYMFilter = " and report_ym in(" + handleMultiData("report_ym", form.getValue("report_ym")) + ") ";
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select car_id, mng_id, SUM(fuel_count) as sum_count,SUM(fuel_amount) as sum_amount from v_fuel where 1=1 " + sReportYMFilter +
+            " and report_sts = 'Y'" + where + "group by car_id,mng_id";
+
+        dao.CommandSQL = sql;
+
+        return dao.searchForDS();
+    }
+
+    /// <summary>
+    /// 服勤機具耗油月報表
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd001_Machine(Form form)
+    {
+        String sParamWorkOrg = handleMultiData("work_org", form.getValue("keep_org"));
+        String sFuelFilter = "";
+        String sReportYMFilter = " and report_ym in(" + handleMultiData("report_ym", form.getValue("report_ym")) + ") ";
+
+        if (form.getValue("fuel_type") != string.Empty)
+            sFuelFilter = "and b.fuel_type in(" + handleMultiData("fuel_type", form.getValue("fuel_type")) + ") ";
+
+        String sql = "select a.*, ISNULL(b.fuel_amount, 0) as fuel_amount, ISNULL(b.fuel_count, 0) as fuel_count, c.days from( " +
+            "select a.card_id, a.work_org as keep_org, b.card_no, work_machine, ROUND(CONVERT(float, SUM(DATEDIFF(mi ,work_start,work_end)))/60, 1) as hours " +
+            "from v_work a " +
+            "left join c_card_mst b on a.card_id = b.card_id where work_type='M' and work_org in(" + sParamWorkOrg + ") and " +
+            "convert(varchar(10), work_date, 111)>=@start_date and convert(varchar(10), work_date, 111)<= @end_date " + sFuelFilter +
+            "group by a.card_id, b.card_no, work_machine, a.work_org) a " +
+            //"left join (select card_id, SUM(fuel_amount) as fuel_amount, SUM(fuel_count) as fuel_count, b.work_machine from v_fuel a " +
+            //"left join (select fuel_id, work_machine from b_fuel_use b left join c_work_mst c on b.work_id=c.work_id and c.work_type='M' " +
+            //"group by fuel_id, work_machine) b on a.fuel_id=b.fuel_id " +
+            //"where report_sts='Y' and report_ym=@report_ym and mng_id= @keep_org group by a.card_id, b.work_machine) b " +
+            //"on a.card_id = b.card_id and  a.work_machine = b.work_machine " +
+            "left join (select a.card_id, SUM(fuel_amount) as fuel_amount, SUM(fuel_count) as fuel_count from v_fuel a " +
+            "left join (select fuel_id, c.card_id from b_fuel_use b left join c_work_mst c on b.work_id=c.work_id " +
+            "and c.work_type='M' group by fuel_id, card_id) b on a.fuel_id=b.fuel_id and a.card_id=b.card_id " +
+            "where report_sts='Y' " + sReportYMFilter + " and mng_id in(" + handleMultiData("mng_id", form.getValue("keep_org")) + ")  and (car_id is null or car_id=0) group by a.card_id) b " +
+            "on a.card_id = b.card_id " +
+            "left join (select card_id, work_machine, COUNT(work_date) as days from( " +
+            "select distinct a.card_id, b.work_machine, a.work_date from c_work_date a " +
+            "left join v_work b on a.work_id = b.work_id where b.work_type='M' and b.work_org in(" + sParamWorkOrg + ") and " +
+            "convert(varchar(10), b.work_date, 111)>=@start_date and convert(varchar(10), b.work_date, 111)<= @end_date) a " +
+            "group by card_id, work_machine) c on a.card_id = c.card_id and a.work_machine = c.work_machine " +
+            "order by card_no, work_machine ";
+
+        dao.CommandSQL = sql;
+        //dao.setParam("@keep_org", form.getValue("keep_org"));
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+    /// <summary>
+    /// 載重資料統計(依車號)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd001_Load(Form form)
+    {
+        String where = string.Empty;
+        String sReportYMFilter = "and report_ym in(" + handleMultiData("report_ym", form.getValue("report_ym")) + ") ";
+
+        if (!form.getValue("car_no").Equals(""))
+        {
+            string[] car_id = form.getValue("car_no").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_no in(" + str_where + ") ";
+        }
+
+        String sql = "select car_no, SUM(net_weight) as net_weight from c_load_mst " +
+            "where 1=1 " + sReportYMFilter + where +
+            " group by car_no ";
+
+        dao.CommandSQL = sql;
+        //dao.setParam("@report_ym", form.getValue("report_ym"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 依查詢條件取得結果車輛的car_no
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public String TDOSd001_getMultiCarNo(Form form)
+    {
+        String MultiCarNo = string.Empty;
+        String sql = "select distinct b.car_no from c_keep_mst a " +
+            "left join c_car_mst b on a.car_id = b.car_id " +
+            "left join c_car_sts c on a.car_id = c.car_id and CONVERT(VARCHAR(10), exec_start,111) <= @end_date " +
+            "and (CONVERT(VARCHAR(10),exec_end,111) >= @start_date or exec_end is null) " +
+            "where CONVERT(VARCHAR(10), keep_start,111) <= @end_date " +
+            "and (CONVERT(VARCHAR(10),keep_end,111) >= @start_date or keep_end is null) and c.status='O'";
+
+        //if (!form.getValue("car_no").Equals(""))
+        //{
+        //    sql += " and b.car_no like @car_no";
+        //    dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+        //}
+
+        //if (!form.getValue("dep_no").Equals(""))
+        //{
+        //    sql += " and b.dep_no like @dep_no";
+        //    dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+        //}
+
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            sql += " and a.keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+        }
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        ArrayList al = dao.search();
+        if (al.Count > 0)
+        {
+            for (int i = 0; i < al.Count; i++)
+            {
+                Hashtable ht = (Hashtable)al[i];
+                MultiCarNo += ht["CAR_NO"].ToString() + ",";
+            }
+
+            MultiCarNo = MultiCarNo.Substring(0, MultiCarNo.Length - 1);
+        }
+
+        return MultiCarNo;
+    }
+
+
+    /// <summary>
+    /// 取得不在報表範圍的加油資料
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList FuelNotInReport(Form form)
+    {
+        String where = string.Empty;
+        String sReportYMFilter = " and report_ym in(" + handleMultiData("report_ym", form.getValue("report_ym")) + ") ";
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and a.car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select a.*, b.car_no as car_no_str from v_fuel a " +
+            "left join c_car_mst b on a.car_id = b.car_id " +
+            "where 1=1 " + sReportYMFilter + "and report_sts='N' " + where;
+
+        dao.CommandSQL = sql;
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+    /// <summary>
+    /// 取得不在報表範圍的加油資料
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList FuelNotInReport_Machine(Form form)
+    {
+        String sReportYMFilter = " and report_ym in(" + handleMultiData("report_ym", form.getValue("report_ym")) + ") ";
+
+        String sql = "select * from v_fuel where 1=1 " + sReportYMFilter + " and mng_id = @keep_org  and car_id is null " +
+            "and card_id in(select a.card_id from c_card_mst a left join (select distinct a.card_id from c_work_date a left join c_card_mst b " +
+            "on a.card_id = b.card_id where convert(varchar(10), work_date, 111)>=@start_date and " +
+            "convert(varchar(10), work_date, 111)<=@end_date and b.keep_org =@keep_org) b on a.card_id = b.card_id " +
+            "where a.keep_org=@keep_org and b.card_id is null) order by card_no";
+
+        dao.CommandSQL = sql;
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        dao.setParam("@keep_org", form.getValue("keep_org"));
+
+        return dao.search();
+    }
+
+
+
+    /// <summary>
+    /// 取得不在報表範圍的加油資料
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    //public ArrayList FuelNotInReport_Machine(Form form)
+    //{
+    //    String sql = "select * from v_fuel where report_ym=@report_ym " +
+    //        "and card_id in(select card_id from c_card_mst where keep_org=@keep_org and " +
+    //        "card_id not in (select distinct card_id from c_work_date where convert(varchar(10), work_date, 111)>=@start_date " +
+    //        "and convert(varchar(10), work_date, 111)<=@end_date)) and car_id is null and report_sts='Y' " +
+    //        "and mng_id = @keep_org  order by card_no";
+
+
+    //    dao.CommandSQL = sql;
+    //    dao.setParam("@report_ym", form.getValue("report_ym"));
+    //    dao.setParam("@start_date", form.getValue("start_date"));
+    //    dao.setParam("@end_date", form.getValue("end_date"));
+    //    dao.setParam("@keep_org", form.getValue("keep_org"));
+
+    //    return dao.search();
+    //}
+
+    /// <summary>
+    /// 依查詢條件取得結果車輛的car_id
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public String TDOSd002_getMultiCarId(Form form)
+    {
+        String MultiCarId = string.Empty;
+        String sql = "select a.car_id from c_keep_mst a " +
+            "left join c_car_mst b on a.car_id = b.car_id " +
+            "left join c_car_sts c on a.car_id = c.car_id and CONVERT(VARCHAR(10), exec_start,111) <= @end_date " +
+            "and (CONVERT(VARCHAR(10),exec_end,111) >= @start_date or exec_end is null) " +
+            "where CONVERT(VARCHAR(10), keep_start,111) <= @end_date " +
+            "and (CONVERT(VARCHAR(10),keep_end,111) >= @start_date or keep_end is null) and c.status='O' ";
+
+        if (!form.getValue("car_no").Equals(""))
+        {
+            sql += " and b.car_no like @car_no";
+            dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+        }
+
+        if (!form.getValue("dep_no").Equals(""))
+        {
+            sql += " and b.dep_no like @dep_no";
+            dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+        }
+
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            sql += " and a.keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+        }
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        ArrayList al = dao.search();
+        if (al.Count > 0)
+        {
+            for (int i = 0; i < al.Count; i++)
+            {
+                Hashtable ht = (Hashtable)al[i];
+                MultiCarId += ht["CAR_ID"].ToString() + ",";
+            }
+
+            MultiCarId = MultiCarId.Substring(0, MultiCarId.Length - 1);
+        }
+
+        return MultiCarId;
+    }
+
+
+
+    /// <summary>
+    /// 依查詢條件取得車輛
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd002_Car(Form form)
+    {
+        String sql = "select a.car_id, b.dep_no, b.car_no, b.fuel_std, c.id_name as car_type, a.keep_org, b.memo from c_keep_mst a " +
+            "left join c_car_mst b on a.car_id = b.car_id " +
+            "left join a_sysparam_data c on b.car_type =c.param_id and c.param_type = 'CAR_TYPE' " +
+            "left join c_car_sts d on a.car_id = d.car_id and CONVERT(VARCHAR(10), exec_start,111) <= @end_date " +
+            "and (CONVERT(VARCHAR(10),exec_end,111) >= @start_date or exec_end is null) " +
+            "where CONVERT(VARCHAR(10), keep_start,111) <= @end_date " +
+            "and (CONVERT(VARCHAR(10),keep_end,111) >= @start_date or keep_end is null) and d.status='O'";
+
+        if (!form.getValue("car_no").Equals(""))
+        {
+            sql += " and b.car_no like @car_no";
+            dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+        }
+
+        if (!form.getValue("dep_no").Equals(""))
+        {
+            sql += " and b.dep_no like @dep_no";
+            dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+        }
+
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            sql += " and a.keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+        }
+
+        if (!form.getValue("fuel_type").Equals(""))
+        {
+            sql += " and b.fuel_type in(" + handleMultiData("fuel_type", form.getValue("fuel_type")) + ")";
+        }
+
+        dao.CommandSQL = sql + " order by b.dep_no";
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    public ArrayList TDOSd002_Machine(Form form)
+    {
+        String where = string.Empty;
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            where += " and keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ") ";
+        }
+
+        String sql = "select a.*, b.id_name, b.id_order_by from (select distinct work_machine from c_work_mst " +
+            "where work_type = 'M' and convert(varchar(10), work_start, 111)<= @end_date " +
+            "and convert(varchar(10), work_end, 111) >= @start_date " + where + ") a " +
+            "left join a_sysparam_data b on a.work_machine = b.param_id and b.param_type='MACHINE' " +
+            "order by b.id_order_by";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 車輛服勤記錄 TDOSd002統計報表
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd002(Form form)
+    {
+        String where = string.Empty;
+
+        if (!form.getValue("car_id").Equals(""))
+        {
+            string[] car_id = form.getValue("car_id").Split(',');
+            string str_where = string.Empty;
+
+            if (car_id.Length > 0)
+            {
+                for (int i = 0; i < car_id.Length; i++)
+                {
+                    str_where += "'" + car_id[i] + "',";
+                }
+                str_where = str_where.Substring(0, str_where.Length - 1);
+            }
+            where = " and car_id in(" + str_where + ") ";
+        }
+
+        String sql = "select w1.car_id, w1.report_m, ISNULL(w1.car_count, 0) as car_count, " +
+            "ISNULL(w1.sum_mileage, 0) as sum_mileage, ISNULL(w2.work_day, 0) as work_day, " +
+            "ISNULL(f.sum_count, 0) as sum_count, ISNULL(f.sum_amount, 0) as sum_amount from( " +
+            "select car_id, SUBSTRING(CONVERT(VARCHAR(10),work_date,111),6,2) as report_m, " +
+            "sum(mileage) as sum_mileage, sum(car_count) as car_count from v_work " +
+            "where convert(varchar(10), work_date, 111)>= @start_date " +
+            "and convert(varchar(10), work_date, 111) <= @end_date " +
+            "and (car_id is not null or car_id <> 0) " + where + "and report_sts='O' " +
+            "group by car_id, SUBSTRING(CONVERT(VARCHAR(10),work_date,111),6,2)) w1 " +
+            "left join (select c.car_id,SUBSTRING(CONVERT(VARCHAR(10),c.work_day,111),6,2) as report_m, " +
+            "COUNT(*) as work_day from (select distinct work_date as work_day, car_id from c_work_date " +
+            "where convert(varchar(10), work_date, 111) >= @start_date " +
+            "and convert(varchar(10), work_date, 111) <= @end_date " +
+            "and car_id is not null and car_id <>'' " + where + ") c " +
+            "group by c.car_id, SUBSTRING(CONVERT(VARCHAR(10),c.work_day,111),6,2)) w2 " +
+            "on w1.car_id = w2.car_id and w1.report_m = w2.report_m " +
+            "left join(select car_id, SUBSTRING(report_ym, 5, 2) as report_m, SUM(fuel_count) as sum_count, " +
+            "SUM(fuel_amount) as sum_amount  from v_fuel " +
+            "where SUBSTRING(report_ym, 1, 3)= @year and report_sts = 'Y' " + where +
+            "group by car_id, SUBSTRING(report_ym, 5, 2)) f on w1.car_id = f.car_id " +
+            "and w1.report_m = f.report_m ";
+
+        dao.CommandSQL = sql + " order by car_id, report_m";
+        dao.setParam("@year", form.getValue("year"));
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 總表TDOSd003統計報表
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd003(Form form)
+    {
+        String sql = "select a.card_id, keep_org, a.card_type, card_no, card_no as car_no, b.car_id, c.memo, dep_no, car_year, " +
+            "dbo.chineseDate(buy_date) as buy_date, brand_no, engine_no, displacement, tonnage, car_type, " +
+            "a.fuel_type, c.fuel_std, ISNULL(d.car_count, 0) as car_count, ISNULL(d.sum_hour, 0) as sum_hour, " +
+            "ISNULL(d.sum_mileage, 0) as sum_mileage, ISNULL(d.sum_area, 0) as sum_area, " +
+            "ISNULL(e.sum_amount, 0) as sum_amount, ISNULL(e.sum_count, 0) as sum_count, " +
+            "ISNULL(f.days, 0) as days, ISNULL(g.sum_car_amount, 0) as sum_car_amount, " +
+            "ISNULL(g.sum_car_count, 0) as sum_car_count, h.status as car_sts, a.status as card_sts, '' as r5_license from c_card_mst a " +
+            "left join c_car_card b on a.card_id = b.card_id and convert(varchar(10), b.possess_start,111) <=@end_date " +
+            "and (b.possess_end is null or convert(varchar(10), b.possess_end,111) >=@start_date) " +
+            "left join c_car_mst c on b.car_id = c.car_id " +
+            "left join(select card_id, sum(car_count) as car_count, ROUND(CONVERT(float, SUM(DATEDIFF(mi ,work_start,work_end)))/60, 1) " +
+            "as sum_hour, SUM(mileage) as sum_mileage, SUM(work_area) as sum_area " +
+            "from v_work where convert(varchar(10), work_date,111) >= @start_date " +
+            "and convert(varchar(10), work_date,111) <= @end_date " +
+            "group by card_id) d on a.card_id = d.card_id " +
+            "left join(select card_id, mng_id, SUM(fuel_amount) as sum_amount, SUM(fuel_count) as sum_count " +
+            "from v_fuel where report_sts = 'Y' and convert(varchar(10), deal_date,111) >= @start_date " +
+            "and convert(varchar(10), deal_date,111) <= @end_date " +
+            "group by card_id, mng_id) e on a.card_id = e.card_id and a.keep_org = e.mng_id " +
+            "left join(select card_id, count(work_date) as days from (select distinct card_id, work_date from c_work_date) a " +
+            "where convert(varchar(10), work_date,111) >= @start_date " +
+            "and convert(varchar(10), work_date,111) <= @end_date " +
+            "group by card_id) f on a.card_id = f.card_id " +
+            "left join(select car_id, mng_id, SUM(fuel_amount) as sum_car_amount, SUM(fuel_count) as sum_car_count " +
+            "from v_fuel where report_sts = 'Y' and convert(varchar(10), deal_date,111) >= @start_date " +
+            "and convert(varchar(10), deal_date,111) <= @end_date " +
+            "group by car_id, mng_id) g on c.car_id = g.car_id and a.keep_org=g.mng_id " +
+            "left join c_car_sts h on c.car_id = h.car_id and CONVERT(VARCHAR(10), h.exec_start,111) <= @end_date " +
+            "and (CONVERT(VARCHAR(10), h.exec_end,111) >= @start_date or h.exec_end is null) ";
+
+        string where = "where 1=1 and (h.status='O' or h.status is null) ";
+
+        if (!form.getValue("car_no").Equals(""))
+        {
+            where += " and a.card_no like @car_no";
+            dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+        }
+
+        if (!form.getValue("dep_no").Equals(""))
+        {
+            where += " and c.dep_no like @dep_no";
+            dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+        }
+
+        if (!form.getValue("card_type").Equals(""))
+        {
+            where += " and a.card_type in(" + handleMultiData("card_type", form.getValue("card_type")) + ")";
+        }
+
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            where += " and a.keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+        }
+
+        if (!form.getValue("fuel_type").Equals(""))
+        {
+            where += " and c.fuel_type in (" + handleMultiData("fuel_type", form.getValue("fuel_type")) + ")";
+        }
+
+        sql = sql + where;
+
+        //#region 補上開始日報廢的車輛
+        //sql += "union select c.card_id, a.chg_org, d.card_type, d.card_no,  b.car_no, a.car_id, b.memo, b.dep_no, b.car_year, " +
+        //    "dbo.chineseDate(b.buy_date), b.brand_no, b.engine_no, b.displacement, b.tonnage, b.car_type, b.fuel_type, b.fuel_std, " +
+        //    "0,0,0,0,0,0,0,0,0, 'O', d.status from c_chg_mst a " +
+        //    "left join c_car_mst b on a.car_id = b.car_id " +
+        //    "left join c_car_card c on a.car_id = c.car_id and c.possess_end is null " +
+        //    "left join c_card_mst d on c.card_id = d.card_id " +
+        //    "where CONVERT(VARCHAR(10), a.chg_date,111) = @start_date and a.chg_org in(" + handleMultiData("chg_org", form.getValue("keep_org")) + ") ";
+        //#endregion
+        sql += " order by a.keep_org, a.card_no";
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 取得1號報廢車輛的資料
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd003_R2(Form form)
+    {
+        String sql = "select c.card_id, a.chg_org as keep_org, d.card_type, d.card_no,  b.car_no, a.car_id, b.memo, b.dep_no, b.car_year, " +
+            "dbo.chineseDate(b.buy_date)  as buy_date, b.brand_no, b.engine_no, b.displacement, b.tonnage, b.car_type, b.fuel_type, b.fuel_std, " +
+            "0 as car_count,0 as sum_hour,0 as sum_mileage,0 as sum_area,0 as sum_amount,0 as sum_count,0 as days,0 as sum_car_amount, " +
+            "0 as sum_car_count,'O' as car_sts, d.status as card_sts from c_chg_mst a " +
+            "left join c_car_mst b on a.car_id = b.car_id " +
+            "left join c_car_card c on a.car_id = c.car_id and c.possess_end is null " +
+            "left join c_card_mst d on c.card_id = d.card_id " +
+            "where CONVERT(VARCHAR(10), a.chg_date,111) = @start_date and a.chg_org in(" + handleMultiData("chg_org", form.getValue("keep_org")) + ") ";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 總表TDOSd003統計報表中的使用到勤務記錄之機具
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd003_FuelUse(Form form)
+    {
+        String sql = "select dbo.chineseDateTime(c.work_start) + '~' + " +
+            "dbo.chineseDateTime(c.work_end) + '(' + d.id_name + ')' as work_data from b_fuel_use a " +
+            "left join v_fuel b on a.fuel_id = b.fuel_id and a.data_source = b.data_source and report_sts='Y' " +
+            "left join c_work_mst c on a.work_id = c.work_id and c.work_type='M' " +
+            "left join a_sysparam_data d on c.work_machine = d.param_id and d.param_type='MACHINE' " +
+            "where b.card_id = @card_id and convert(varchar(10), deal_date, 111) >= @start_date " +
+            "and convert(varchar(10), deal_date, 111) <= @end_date ";
+
+        dao.CommandSQL = sql + " order by c.work_start ";
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        dao.setParam("@card_id", form.getValue("card_id"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 總表TDOSd003統計報表中的車輛異動情形摘要(備註)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd003_CarChange(Form form)
+    {
+        String sql = "select dbo.chineseDate(chg_date) as chg_date, chg_rsn from c_chg_mst " +
+            "where convert(varchar(10), chg_date,111) >=@start_date and convert(varchar(10), chg_date,111)<=@end_date " +
+            "and car_id=@car_id ";
+
+        dao.CommandSQL = sql + " order by chg_date ";
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        dao.setParam("@car_id", form.getValue("car_id"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 總表TDOSd001統計報表中的車輛異動情形摘要(備註)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd001_CarChange(Form form)
+    {
+        String sql = "select car_id, dbo.chineseDate(chg_date) as chg_date, chg_rsn, r5_license from c_chg_mst " +
+            "where convert(varchar(10), chg_date,111) >=@start_date and convert(varchar(10), chg_date,111)<=@end_date ";
+
+        dao.CommandSQL = sql + " order by chg_date ";
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 總表TDOSd003統計報表中的臨時卡補登車號(備註)
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public String TDOSd003_CarNo(Form form, String mng_id, String card_id)
+    {
+        String car_no = string.Empty;
+
+        String sql = "select car_no from v_fuel " +
+            "where car_no<>'' and mng_id=@mng_id and report_sts = 'Y' and convert(varchar(10), deal_date,111) >=@start_date " +
+            "and convert(varchar(10), deal_date,111) <=@end_date and card_id =@card_id ";
+
+        dao.CommandSQL = sql + " order by car_no ";
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        dao.setParam("@mng_id", mng_id);
+        dao.setParam("@card_id", card_id);
+
+        ArrayList al = dao.search();
+
+        if (al.Count > 0)
+        {
+            car_no = "補登車號：";
+            for (int i = 0; i < al.Count; i++)
+            {
+                Hashtable ht = (Hashtable)al[i];
+                car_no += ht["CAR_NO"].ToString() + "、";
+            }
+
+            if (car_no.Length > 1)
+            {
+                car_no = car_no.Substring(0, car_no.Length - 1);
+            }
+
+            car_no += "。";
+        }
+
+        return car_no;
+    }
+
+
+    /// <summary>
+    /// 報表備註顯示車輛使用臨時卡加油補登車號的資訊
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList showCarNoMomo(Form form, String reportType)
+    {
+
+        String sql = "select mng_id, card_id, card_no, car_no,  fuel_count, car_id from v_fuel " +
+            "where car_no<>'' and card_type='3' and report_sts = 'Y' ";
+
+        if (reportType == "TDOSd001")
+        {
+            sql += " and report_ym in(" + handleMultiData("report_ym", form.getValue("report_ym")) + ") order by car_no, report_ym ";
+        }
+        else if (reportType == "TDOSd003")
+        {
+            sql += " and convert(varchar(10), deal_date,111) >=@start_date and convert(varchar(10), deal_date,111) <=@end_date order by car_no ";
+            dao.setParam("@start_date", form.getValue("start_date"));
+            dao.setParam("@end_date", form.getValue("end_date"));
+        }
+
+        dao.CommandSQL = sql;
+
+        ArrayList al = dao.search();
+
+        return al;
+    }
+
+
+    /// <summary>
+    /// 新增行駛異常備註說明
+    /// </summary>
+    /// <param name="form"></param>
+    public void insertUnusual(Form form)
+    {
+        String sql = "insert into d_unusual_mst (car_id, report_ym, keep_org, memo, create_date, create_user, update_date, update_user) " +
+            "values (@car_id, @report_ym, @keep_org, @memo, GETDATE(), @create_user, GETDATE(), @create_user)";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@car_id", form.getValue("car_id"));
+        dao.setParam("@report_ym", form.getValue("report_ym"));
+        dao.setParam("@keep_org", form.getValue("keep_org"));
+        dao.setParam("@memo", form.getValue("memo"));
+        dao.setParam("@create_user", form.getValue("create_user"));
+
+        dao.executeModify();
+    }
+
+
+    /// <summary>
+    /// 刪除行駛異常備註說明
+    /// </summary>
+    /// <param name="form"></param>
+    public void deleteUnusual(Form form)
+    {
+        String sql = "delete d_unusual_mst where car_id=@car_id and report_ym = @report_ym and keep_org=@keep_org";
+
+        dao.CommandSQL = sql;
+        dao.setParam("@car_id", form.getValue("car_id"));
+        dao.setParam("@report_ym", form.getValue("report_ym"));
+        dao.setParam("@keep_org", form.getValue("keep_org"));
+        dao.executeModify();
+    }
+
+
+    /// <summary>
+    /// 顯示已儲存的行駛異常備註說明
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList showUnusualMomo(Form form)
+    {
+        String sql = "select * from d_unusual_mst where 1=1";
+
+        sql += " and report_ym in(" + handleMultiData("report_ym", form.getValue("report_ym")) + ")";
+
+        sql += " and keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+
+        dao.CommandSQL = sql + " order by car_id, report_ym ";
+
+        ArrayList al = dao.search();
+
+        return al;
+    }
+
+
+    /// <summary>
+    /// 留廠車輛報表 
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd004(Form form)
+    {
+        String sql = @"select b.car_id, b.dep_no, d.card_no as car_no, a.notify_id, a.crs_org, dbo.chineseDateTime(a.notify_date) as notify_date, 
+            a.work_no, a.notify_item, dbo.repair_out(a.work_no) as repair_out, left(h.repair_vender,len(h.repair_vender)-1) as repair_vender, 
+            dbo.chineseDateTime(g.exec_deadline) as exec_deadline from f_notify_mst a 
+            left join c_car_mst b on a.car_id = b.car_id 
+            left join c_car_card c on a.car_id = c.car_id and CONVERT(VARCHAR(10), c.possess_start,111) <= @report_date 
+            and (CONVERT(VARCHAR(10), c.possess_end,111) >= @report_date or c.possess_end is null) 
+            left join c_card_mst d on c.card_id = d.card_id 
+            left join c_crs_sts e on a.car_id = e.car_id 
+            left join (select work_no, max(finish_date) as finish_date from f_repair_mst group by work_no) f on a.work_no = f.work_no 
+            left join (select work_no, max(exec_deadline) as exec_deadline from f_repair_mst group by work_no) g on a.work_no = g.work_no 
+            left join (SELECT work_no,(SELECT cast(repair_vender AS NVARCHAR ) + ',' from f_repair_mst where 
+            work_no = a.work_no FOR XML PATH('')) as repair_vender from f_repair_mst a GROUP BY work_no) h on a.work_no = h.work_no 
+            where 1=1 and CONVERT(VARCHAR(10), e.exec_start,111) <= @report_date 
+            and (CONVERT(VARCHAR(10), e.exec_end,111) >= @report_date or e.exec_end is null) 
+            and e.status='O' and convert(varchar(10), a.notify_date,111) <= @report_date 
+            and a.repair_status = 'M' ";
+
+        //String sql = "select b.dep_no, b.car_no, a.notify_id, a.crs_org, dbo.chineseDateTime(a.notify_date) as notify_date, " +
+        //    "a.work_no, a.notify_item, dbo.repair_out(a.work_no) as repair_out, left(f.repair_vender,len(f.repair_vender)-1) as repair_vender, " +
+        //    "dbo.chineseDateTime(e.exec_deadline) as exec_deadline " +
+        //    "from f_notify_mst a " +
+        //    "left join c_car_mst b on a.car_id = b.car_id " +
+        //    "left join c_crs_sts c on a.car_id = c.car_id " +
+        //    "left join (select work_no, max(finish_date) as finish_date from f_repair_mst group by work_no) d on a.work_no = d.work_no " +
+        //    "left join (select work_no, max(exec_deadline) as exec_deadline from f_repair_mst group by work_no) e on a.work_no = e.work_no " +
+        //    "left join (SELECT work_no,(SELECT cast(repair_vender AS NVARCHAR ) + ',' from f_repair_mst " +
+        //    "where work_no = a.work_no FOR XML PATH('')) as repair_vender from f_repair_mst a GROUP BY work_no) f on a.work_no = f.work_no " +
+        //    "where 1=1 and CONVERT(VARCHAR(10), c.exec_start,111) <= @report_date " +
+        //    "and (CONVERT(VARCHAR(10), c.exec_end,111) >= @report_date or c.exec_end is null) and c.status='O' " +
+        //    "and convert(varchar(10), a.notify_date,111) <= @report_date " +
+        //    "and a.repair_status = 'M' ";
+        // "and (convert(varchar(10), a.finish_date, 111) >= @report_date and a.repair_status = 'F') ";             
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ") ";
+        }
+
+        dao.CommandSQL = sql + "order by a.work_no";
+
+        dao.setParam("@report_date", form.getValue("report_date"));
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd004_Car(Form form)
+    {
+        String sql = "select count(*) as car_sum from c_car_mst a " +
+            "left join c_crs_sts b on a.car_id = b.car_id left join c_keep_mst c on a.car_id = c.car_id " +
+            "where 1=1 and CONVERT(VARCHAR(10), b.exec_start,111) <= @report_date " +
+            "and (CONVERT(VARCHAR(10), b.exec_end,111) >= @report_date or b.exec_end is null) and b.status='O' " +
+            "and CONVERT(VARCHAR(10), c.keep_start,111) <= @report_date and (CONVERT(VARCHAR(10), c.keep_end,111) >= @report_date " +
+            "or c.keep_end is null) ";
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and c.keep_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+        dao.setParam("@report_date", form.getValue("report_date"));
+
+        dao.CommandSQL = sql;
+
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 委外託修報表
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd005(Form form)
+    {
+        //修正惠爾查不到11 / 20_wenny1061222 ;//修正缺報停_wenny1061229
+
+        String sql = @"select distinct a.component_no,dbo.chineseDateTime(i.notify_date) as notify_date, h.card_no as car_no, c.dep_no, b.crs_org, a.notify_item, 
+            e.component_name, e.unit, e.budget1, e.budget2, e.budget3, e.budget4, a.count, (e.budget1 * a.count) as total_price1, 
+            (e.budget2 * a.count) as total_price2, (e.budget3 * a.count) as total_price3, (e.budget4 * a.count) as total_price4, b.repair_vender, 
+            b.case_no, b.work_no, a.repair_did, b.budget_area from f_repair_dtl a 
+            right join f_repair_mst b on a.repair_id = b.repair_id 
+            left join c_car_mst c on b.car_id = c.car_id 
+            left join e_component_mst e on a.component_no = e.component_no 
+            left join c_car_sts f on c.car_id = f.car_id 
+            left join c_car_card g on b.car_id = g.car_id            
+            and CONVERT(VARCHAR(10), g.possess_start,111) <= @start_date  
+            and (CONVERT(VARCHAR(10), g.possess_end,111) >= @end_date or g.possess_end is null)
+            left join c_card_mst h on g.card_id = h.card_id 
+            left join f_notify_mst i on b.work_no = i.work_no  
+            where 1=1 and i.notify_type = 'C' and a.notify_item  is not null
+           --and CONVERT(VARCHAR(10), f.exec_start,111) <=  @start_date and 
+           -- (CONVERT(VARCHAR(10), f.exec_end,111) >= @end_date or f.exec_end is null) and f.status='O'
+            and convert(varchar(10), i.notify_date,111) <= @end_date and convert(varchar(10), i.notify_date,111) >= @start_date ";
+        #region 修正惠爾查不到11 / 20_wenny1061222_原始碼 
+
+        //String sql = @"select dbo.chineseDateTime(b.notify_date) as notify_date, h.card_no as car_no, c.dep_no, b.crs_org, a.notify_item, 
+        //    e.component_name, e.unit, e.budget1, e.budget2, e.budget3, e.budget4, a.count, (e.budget1 * a.count) as total_price1, 
+        //    (e.budget2 * a.count) as total_price2, (e.budget3 * a.count) as total_price3, (e.budget4 * a.count) as total_price4, b.repair_vender, 
+        //    b.case_no, b.work_no, a.repair_did, b.budget_area from f_repair_dtl a 
+        //    right join f_repair_mst b on a.repair_id = b.repair_id 
+        //    left join c_car_mst c on b.car_id = c.car_id 
+        //    left join e_component_mst e on a.component_no = e.component_no 
+        //    left join c_car_sts f on c.car_id = f.car_id 
+        //    left join c_car_card g on b.car_id = g.car_id            
+        //    and CONVERT(VARCHAR(10), g.possess_start,111) <= @start_date  
+        //    and (CONVERT(VARCHAR(10), g.possess_end,111) >= @end_date or g.possess_end is null)
+        //    left join c_card_mst h on g.card_id = h.card_id 
+        //    left join f_notify_mst i on b.work_no = i.work_no  
+        //    where 1=1 and i.notify_type = 'C' and CONVERT(VARCHAR(10), f.exec_start,111) <=  @start_date and 
+        //    (CONVERT(VARCHAR(10), f.exec_end,111) >= @end_date or f.exec_end is null) and f.status='O' 
+        //    and convert(varchar(10), b.notify_date,111) <= @end_date and convert(varchar(10), b.notify_date,111) >= @start_date ";
+        #endregion
+        //2018/09/03新增局編號查詢條件
+
+        if (!form.getValue("dep_no").Equals(""))
+        {
+            sql += " and (c.dep_no like @dep_no )";
+            dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+        }
+        //2018/09/03新增局編號查詢條件
+        ////2018/09/03新增車號查詢條件
+        if (!form.getValue("car_no").Equals(""))
+        {
+            sql += " and (car_no like @car_no)";
+            dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+
+        }
+        //2018/09/03新增車號查詢條件
+
+
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and b.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+
+
+
+
+        dao.CommandSQL = sql + "order by b.case_no, a.repair_did";
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+    public ArrayList TDOSd0051_Machine(Form form)
+    {
+        String sql = @"select a.crs_org,dep_no,
+               d.id_name as  car_no,   sum(t.total_price) as total_price from f_repair_mst a 
+            left join c_car_mst b on a.car_id = b.car_id 
+            left join f_notify_mst c on a.work_no = c.work_no    
+              left join [a_sysparam_data] d on  c.machine_type=d.param_id
+            left join (select t.repair_id, sum(t.subtotal) as total_price from( 
+            select a.*, round(a.count* a.budget,0) as subtotal from( 
+            select a.repair_id, a.count, b.budget_area, case when budget_area = 1 then c.budget1  when budget_area = 3 then c.budget3
+             when budget_area = 4 then c.budget4 else c.budget2 end as budget from f_repair_dtl a 
+             left join f_repair_mst b on a.repair_id = b.repair_id 
+             left join e_component_mst c on a.component_no = c.component_no) a )t group by t.repair_id) t on t.repair_id = a.repair_id 
+              where convert(varchar(10), a.notify_date,111) >= @start_date
+             and     convert(varchar(10), a.notify_date,111) <= @end_date  and  c.notify_type = 'M' and param_type='MACHINE'   ";
+
+        //if (!form.getValue("car_no").Equals(""))
+        //{
+        //    sql += " and (car_no like @car_no)";
+        //    dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+
+        //}
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+
+
+
+
+        dao.CommandSQL = sql + " GROUP BY car_no,a.crs_org,d.id_name,dep_no ORDER BY total_price DESC ";
+
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    public ArrayList TDOSd0053_Machine(Form form)
+    {
+        String sql = @"select a.crs_org,dep_no,
+               d.id_name as  car_no,   sum(t.total_price) as total_price from f_repair_mst a 
+            left join c_car_mst b on a.car_id = b.car_id 
+            left join f_notify_mst c on a.work_no = c.work_no    
+              left join [a_sysparam_data] d on  c.machine_type=d.param_id
+            left join (select t.repair_id, sum(t.subtotal) as total_price from( 
+            select a.*, round(a.count* a.budget,0) as subtotal from( 
+            select a.repair_id, a.count, b.budget_area, case when budget_area = 1 then c.budget1  when budget_area = 3 then c.budget3
+             when budget_area = 4 then c.budget4 else c.budget2 end as budget from f_repair_dtl a 
+             left join f_repair_mst b on a.repair_id = b.repair_id 
+             left join e_component_mst c on a.component_no = c.component_no) a )t group by t.repair_id) t on t.repair_id = a.repair_id 
+              where convert(varchar(10), a.notify_date,111) >= @start_date
+             and     convert(varchar(10), a.notify_date,111) <= @end_date  and  c.notify_type = 'M' and param_type='MACHINE'   ";
+
+        //if (!form.getValue("car_no").Equals(""))
+        //{
+        //    sql += " and (car_no like @car_no)";
+        //    dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+
+        //}
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+
+
+
+
+        dao.CommandSQL = sql + " GROUP BY car_no,a.crs_org,d.id_name,dep_no ORDER BY total_price DESC ";
+
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+    public ArrayList TDOSd0053(Form form)
+    {
+        String sql = @"select a.crs_org,dep_no,
+               d.id_name as  car_no,   sum(t.total_price) as total_price from f_repair_mst a 
+            left join c_car_mst b on a.car_id = b.car_id 
+            left join f_notify_mst c on a.work_no = c.work_no    
+              left join [a_sysparam_data] d on  c.machine_type=d.param_id
+            left join (select t.repair_id, sum(t.subtotal) as total_price from( 
+            select a.*, round(a.count* a.budget,0) as subtotal from( 
+            select a.repair_id, a.count, b.budget_area, case when budget_area = 1 then c.budget1  when budget_area = 3 then c.budget3
+             when budget_area = 4 then c.budget4 else c.budget2 end as budget from f_repair_dtl a 
+             left join f_repair_mst b on a.repair_id = b.repair_id 
+             left join e_component_mst c on a.component_no = c.component_no) a )t group by t.repair_id) t on t.repair_id = a.repair_id 
+              where convert(varchar(10), a.notify_date,111) >= @start_date
+             and     convert(varchar(10), a.notify_date,111) <= @end_date  and  c.notify_type = 'M' and param_type='MACHINE'   ";
+
+        //if (!form.getValue("car_no").Equals(""))
+        //{
+        //    sql += " and (car_no like @car_no)";
+        //    dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+
+        //}
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+
+
+
+
+        dao.CommandSQL = sql + " GROUP BY car_no,a.crs_org,d.id_name,dep_no ORDER BY total_price DESC ";
+
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public ArrayList TDOSd0051(Form form)
+    {
+        String sql = @"select a.crs_org,dep_no,
+             car_no, sum(t.total_price) as total_price  from f_repair_mst a 
+            left join c_car_mst b on a.car_id = b.car_id 
+            left join f_notify_mst c on a.work_no = c.work_no            
+            left join (select t.repair_id, sum(t.subtotal) as total_price from( 
+            select a.*, round(a.count* a.budget,0) as subtotal from( 
+            select a.repair_id, a.count, b.budget_area, case when budget_area = 1 then c.budget1  when budget_area = 3 then c.budget3
+             when budget_area = 4 then c.budget4 else c.budget2 end as budget from f_repair_dtl a 
+             left join f_repair_mst b on a.repair_id = b.repair_id 
+             left join e_component_mst c on a.component_no = c.component_no) a )t group by t.repair_id) t on t.repair_id = a.repair_id 
+              where convert(varchar(10), a.notify_date,111) >= @start_date
+             and     convert(varchar(10), a.notify_date,111) <= @end_date  and  c.notify_type = 'C'    ";
+
+        if (!form.getValue("car_no").Equals(""))
+        {
+            sql += " and (car_no like @car_no)";
+            dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+
+        }
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+
+
+
+        dao.CommandSQL = sql + " GROUP BY car_no,a.crs_org,c.notify_type,dep_no ORDER BY total_price DESC ";
+
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+    public ArrayList TDOSd0052(Form form)
+    {
+        String sql = @"select a.crs_org,dep_no,
+        car_no, sum(t.total_price) as total_price  ,notify_date1
+       
+            from f_repair_mst a 
+            left join c_car_mst b on a.car_id = b.car_id 
+			left join (select   case when notify_date >=@start_date1  and notify_date <@end_date1 then '1' 
+                  when notify_date >=@start_date2  and notify_date <@end_date2 then '2'
+                   when notify_date >=@start_date3  and notify_date <@end_date3 then '3'
+		          when notify_date >=@start_date4  and notify_date <@end_date4 then '4'
+                  END as notify_date1,notify_date,repair_id from f_repair_mst  )  d on  a.repair_id = d.repair_id
+            left join f_notify_mst c on a.work_no = c.work_no            
+            left join (select t.repair_id, sum(t.subtotal) as total_price from( 
+            select a.*, round(a.count* a.budget,0) as subtotal from( 
+            select a.repair_id, a.count, b.budget_area, case when budget_area = 1 then c.budget1  when budget_area = 3 then c.budget3
+             when budget_area = 4 then c.budget4 else c.budget2 end as budget from f_repair_dtl a 
+             left join f_repair_mst b on a.repair_id = b.repair_id 
+             left join e_component_mst c on a.component_no = c.component_no) a )t group by t.repair_id) t on t.repair_id = a.repair_id 
+              where convert(varchar(10), a.notify_date,111) >= @start_date
+             and     convert(varchar(10), a.notify_date,111) <= @end_date  and c.notify_type = 'C'   ";
+
+        if (!form.getValue("car_no").Equals(""))
+        {
+            sql += " and (car_no like @car_no)";
+            dao.setParam("@car_no", "%" + form.getValue("car_no") + "%");
+
+        }
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+
+
+
+        dao.CommandSQL = sql + " GROUP BY car_no,a.crs_org,notify_date1,dep_no  ORDER BY notify_date1   ";
+
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        dao.setParam("@start_date1", form.getValue("start_date1"));
+        dao.setParam("@end_date1", form.getValue("end_date1"));
+        dao.setParam("@start_date2", form.getValue("start_date2"));
+        dao.setParam("@end_date2", form.getValue("end_date2"));
+        dao.setParam("@start_date3", form.getValue("start_date3"));
+        dao.setParam("@end_date3", form.getValue("end_date3"));
+        dao.setParam("@start_date4", form.getValue("start_date4"));
+        dao.setParam("@end_date4", form.getValue("end_date4"));
+
+        return dao.search();
+    }
+
+
+
+    public ArrayList TDOSd0052_Machine(Form form)
+    {
+        String sql = @"select a.crs_org,dep_no,
+        car_no, sum(t.total_price) as total_price  ,notify_date1
+       
+            from f_repair_mst a 
+            left join c_car_mst b on a.car_id = b.car_id 
+			left join (select   case when notify_date >=@start_date1  and notify_date <@end_date1 then '1' 
+                  when notify_date >=@start_date2  and notify_date <@end_date2 then '2'
+                   when notify_date >=@start_date3  and notify_date <@end_date3 then '3'
+		          when notify_date >=@start_date4  and notify_date <@end_date4 then '4'
+                  END as notify_date1,notify_date,repair_id from f_repair_mst  )  d on  a.repair_id = d.repair_id
+            left join f_notify_mst c on a.work_no = c.work_no            
+            left join (select t.repair_id, sum(t.subtotal) as total_price from( 
+            select a.*, round(a.count* a.budget,0) as subtotal from( 
+            select a.repair_id, a.count, b.budget_area, case when budget_area = 1 then c.budget1  when budget_area = 3 then c.budget3
+             when budget_area = 4 then c.budget4 else c.budget2 end as budget from f_repair_dtl a 
+             left join f_repair_mst b on a.repair_id = b.repair_id 
+             left join e_component_mst c on a.component_no = c.component_no) a )t group by t.repair_id) t on t.repair_id = a.repair_id 
+              where convert(varchar(10), a.notify_date,111) >= @start_date
+             and     convert(varchar(10), a.notify_date,111) <= @end_date   and c.notify_type = 'M'  and param_type='MACHINE' ";
+
+       
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+
+
+
+
+        dao.CommandSQL = sql + " GROUP BY car_no,a.crs_org,notify_date1,e.id_name  ORDER BY notify_date1  ";
+
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        dao.setParam("@start_date1", form.getValue("start_date1"));
+        dao.setParam("@end_date1", form.getValue("end_date1"));
+        dao.setParam("@start_date2", form.getValue("start_date2"));
+        dao.setParam("@end_date2", form.getValue("end_date2"));
+        dao.setParam("@start_date3", form.getValue("start_date3"));
+        dao.setParam("@end_date3", form.getValue("end_date3"));
+        dao.setParam("@start_date4", form.getValue("start_date4"));
+        dao.setParam("@end_date4", form.getValue("end_date4"));
+
+        return dao.search();
+    }
+    /// <summary>
+    /// 機具的委外託修報表
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd005_Machine(Form form)
+    {
+        String sql = @"select b.component_no, dbo.chineseDateTime(a.notify_date) as notify_date, d.machine_no, a.crs_org, b.notify_item, c.component_name, 
+            c.unit, c.budget1, c.budget2, c.budget3, c.budget4, b.count, (c.budget1 * b.count) as total_price1, 
+            (c.budget2 * b.count) as total_price2, (c.budget3 * b.count) as total_price3, (c.budget4 * b.count) as total_price4, a.repair_vender,
+            a.case_no, a.work_no, b.repair_did, a.budget_area, d.machine_type 
+            from f_repair_mst a
+            left join f_repair_dtl b on a.repair_id = b.repair_id
+            left join e_component_mst c on b.component_no = c.component_no
+            left join f_notify_mst d on a.work_no = d.work_no
+            where convert(varchar(10), a.create_date,111) <= @end_date and convert(varchar(10), a.create_date,111) >= @start_date 
+            and d.notify_type = 'M'";
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and a.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ")";
+        }
+        //2018/09/03新增局編號查詢條件
+
+      
+
+        if (!form.getValue("dep_no").Equals(""))
+        {
+            sql += " and machine_no like @dep_no ";
+            dao.setParam("@dep_no", "%" + form.getValue("dep_no") + "%");
+        }
+        //2018/09/03新增局編號查詢條件
+     
+
+
+
+        dao.CommandSQL = sql + "order by a.case_no, b.repair_did";
+
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+
+        return dao.search();
+    }
+
+
+    //    /// <summary>
+    //    /// 車輛定檢月報表
+    //    /// </summary>
+    //    /// <param name="form"></param>
+    //    /// <returns>車輛定檢月報表</returns>
+    //    public ArrayList TDOSd006(Form form)
+    //    {
+    //        String sql = @"SELECT Row_Number() OVER (ORDER BY v.keep_org, v.dep_no) AS row_num
+    //                                ,v.car_id
+    //                                ,CONVERT(DATE,v.next_inspection) AS next_inspection
+    //                                ,CONVERT(DATE,v.must_inspect_date) AS must_inspect_date
+    //                                ,CONVERT(DATE,v.inspect_start) AS inspect_start
+    //                                ,CONVERT(DATE,v.inspect_end) AS inspect_end
+    //                                ,CONVERT(DATE,v.inspection_date) AS inspection_date
+    //                                ,v.keep_org
+    //                                ,v.car_no
+    //                                ,v.dep_no
+    //                                ,a.car_type
+    //                                ,CONVERT(DATE,b.regular_date) AS regular_date
+    //                                FROM v_inspection v
+    //                                LEFT JOIN v_car  a on v.car_id=a.car_id
+    //                                LEFT JOIN c_inspection_mst b on v.car_id=b.car_id
+    //                                WHERE must_inspect_date <=(DATEADD(month,2,(CONVERT(datetime,@Report_YM+'01',112)))-1)     /*次月末日=次次月1日減1*/
+    //                                AND must_inspect_date >= DATEADD(month,-1,(CONVERT(datetime,@Report_YM+'01',112)))             /*上月1日*/
+    //                                AND v.inspection_date IS NULL and v.next_inspection IS NOT NULL ";
+
+    //        if (!form.getValue("keep_org").Equals(""))
+    //        {
+    //            sql += "and b.crs_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+    //        }
+
+    //        dao.CommandSQL = sql;
+    //        dao.setParam("@report_ym", form.getValue("report_ym"));
+    //        return dao.search();
+    //    }
+
+
+    /// <summary>
+    /// 車輛定檢月報表
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns>車輛定檢月報表</returns>
+    public ArrayList TDOSd006(Form form)
+    {
+        String sql = @" select * from (
+            select Row_Number() over (order by c.keep_org, c.dep_no) as row_numa, a.car_id, a.next_inspection
+            ,CONVERT(datetime,CONVERT(CHAR(4),GETDATE(),112)+Right(CONVERT(CHAR(8),a.next_inspection,112),4)) as must_inspect_date
+            ,CONVERT(datetime,CONVERT(CHAR(4),GETDATE(),112)+Right(CONVERT(CHAR(8),a.next_inspection,112),4))-30 as inspect_start
+            ,CONVERT(datetime,CONVERT(CHAR(4),GETDATE(),112)+Right(CONVERT(CHAR(8),a.next_inspection,112),4))+30 as inspect_end
+            ,inspection_date--isnull(b.inspection_date,'') as inspection_date, c.keep_org, c.car_no, c.dep_no, a.car_type, regular_date  --isnull(b.regular_date,'') as regular_date
+            from dbo.c_car_mst a left join 
+            (select car_id,MAX(inspection_date) as inspection_date ,MAX(regular_date) as regular_date from c_inspection_mst group by car_id) b 
+            on a.car_id=b.car_id left join 
+            (select car_id,keep_org ,car_no ,dep_no ,status from v_car ) c on a.car_id=c.car_id and c.status='O' 
+            )d where 
+            -- inspection_date若不為NULL 則要多加判斷inspection_date是否落在應檢起迄日
+            (case when inspection_date is not null then case when inspection_date <= inspect_start and inspection_date >= inspect_end then 1 end 
+            -- inspection_date 若為NULL 則視為真
+            else 1 end)> 0 --次月末日=次次月1日減1
+            and must_inspect_date <=(DATEADD(month,2,(CONVERT(datetime,@Report_YM+'01',112)))-1) 
+           --上月1日*/
+            and must_inspect_date >= DATEADD(month,-1,(CONVERT(datetime,@Report_YM+'01',112))) 
+            and d.inspection_date is NULL 
+            and d.next_inspection is not NULL ";
+
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            sql += "and b.crs_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ")";
+        }
+
+        dao.CommandSQL = sql;
+        dao.setParam("@report_ym", form.getValue("report_ym"));
+        return dao.search();
+    }
+
+    /// <summary>
+    /// 呈現符合報表年月且使用中的車輛檢驗狀態
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd006_CAR(Form form)
+    {
+        String sql = @" SELECT 
+	                            a.car_id
+                                ,dep_no
+                                ,e.card_no AS car_no
+                                ,b.keep_org AS keep_org
+                                ,car_type
+                                ,CONVERT(VARCHAR(10),licensing_date,111) AS licensing_date
+                                ,'' AS inspection_date
+                                ,'' AS inspection_status
+                                ,'' AS inspection_range 
+                                ,CONVERT(VARCHAR(10),A.next_inspection,112) AS next_inspection
+                                ,CONVERT(VARCHAR(10),DATEADD(DAY,-30,A.next_inspection),111) AS inspection_start
+                                ,CONVERT(VARCHAR(10),DATEADD(DAY,30,A.next_inspection),111) AS inspection_end
+                                FROM c_car_mst A 
+                                LEFT JOIN c_keep_mst B 
+	                                ON a.car_id = b.car_id 
+	                                AND convert(varchar(10), b.keep_start,111) <= convert(varchar(10), @START_DATE,111)
+	                                AND (b.keep_end is null or convert(varchar(10), b.keep_end,111) >= convert(varchar(10), @END_DATE,111))
+                                LEFT JOIN c_car_sts c on a.car_id=c.car_id and convert(varchar(10), c.exec_start,111) <= convert(varchar(10), @START_DATE,111)
+	                                AND (c.exec_end is null or convert(varchar(10), c.exec_end,111) >= convert(varchar(10), @END_DATE,111))
+                                LEFT JOIN c_car_card d on a.car_id = d.car_id 
+	                                AND convert(varchar(10), d.possess_start,111) <= convert(varchar(10), @START_DATE,111)
+	                                AND (d.possess_end is null or convert(varchar(10), d.possess_end,111) >= convert(varchar(10), @END_DATE,111))
+                                LEFT JOIN c_card_mst e on d.card_id = e.card_id and e.card_type='1' 
+                                /*next_inspection-30天要小於報表年月的結束日*/
+                                WHERE DATEADD(DAY,-30,next_inspection)<@END_DATE ";
+
+        if (!form.getValue("keep_org").Equals(""))
+        {
+            sql += "and b.keep_org in(" + handleMultiData("keep_org", form.getValue("keep_org")) + ") ";
+        }
+
+        dao.CommandSQL = sql;
+        dao.setParam("@START_DATE", form.getValue("start_date"));
+        dao.setParam("@END_DATE", form.getValue("end_date"));
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 在已完成檢驗的車輛中(FROM c_inspection_mst)，取得符合報表年月的資料
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd006_INSPECTED(Form form)
+    {
+        String sql = @"
+                                SELECT car_id, CONVERT(VARCHAR(10),regular_date,111) AS regular_date, CONVERT(VARCHAR(10),inspection_date,111) AS inspection_date,'1' as inspection_status
+                                FROM c_inspection_mst 
+                                WHERE CONVERT(CHAR(6),inspection_date,112)=@REPORT_YM            
+        ";
+        dao.CommandSQL = sql;
+        dao.setParam("@REPORT_YM", form.getValue("report_ym"));
+        return dao.search();
+    }
+
+
+    /// <summary>
+    /// 廢品報表
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ArrayList TDOSd007(Form form)
+    {
+        String sql = @"select a.repair_id, c.machine_no, c.machine_org, b.crs_org, d.dep_no, b.work_no, b.case_no, a.junk_name, a.junk_count, c.notify_type, '' as recycle_date from f_repair_dtl  a 
+            left join f_repair_mst b on a.repair_id = b.repair_id
+            left join f_notify_mst c on b.work_no = c.work_no
+            left join c_car_mst d on c.car_id = d.car_id and c.notify_type = 'C'
+            where a.is_junk ='Y' and CONVERT(VARCHAR(10), b.create_date, 111) >= @start_date and CONVERT(VARCHAR(10), b.create_date, 111) <= @end_date ";
+
+        if (!form.getValue("crs_org").Equals(""))
+        {
+            sql += "and b.crs_org in(" + handleMultiData("crs_org", form.getValue("crs_org")) + ") ";
+        }
+
+        dao.CommandSQL = sql;
+        dao.OrderSQL = "a.repair_id, a.repair_did";
+        dao.setParam("@start_date", form.getValue("start_date"));
+        dao.setParam("@end_date", form.getValue("end_date"));
+        return dao.search();
+    }
+}

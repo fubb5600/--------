@@ -1,0 +1,193 @@
+/* 用於整份文件 */
+  body 
+    { 
+      background-color:#fdfcea; color:#333333; font-size:x-small; font-family:Book Antiqua,新細明體;
+      margin-left: 0; margin-top:0; margin-right: 0; margin-bottom:0 
+    }
+  p
+    { margin-top:0; margin-bottom:0 }
+  input, textarea, select
+    { font-size:small; font-family:Book Antiqua,新細明體; }
+
+
+/* 用於Template */
+   /* 表頭上的Background */
+    .header      { background:url(../images/headerbg.jpg) left top no-repeat;height:73px; width:580px;} /*width:525px*/
+    .header-2    { background:url(../images/headerbg2.jpg) right top no-repeat;height:73px; width:350px;}
+   /* 表頭上的字 */
+    .font_header { color:#000000; font-size:13px; font-weight:bold; line-height:150%; }
+
+   /* 頁尾 */
+	.font_footer { color:#979797; text-align:center; font-size:small; padding: 10px 0 0 0;}
+	
+   /* menu */
+     /* 統一放在 style_menu.css 裡設定 */
+ 
+   /* 最外面一層 */
+    table.content { border:0; width:98%; margin:0 5px 0 5px; font-size:small; padding:0; }
+
+   /* 外面的黃框 */
+    td.framelefthead  {width:15px; height:13px; background:url(../images/frame-headbg.jpg) left top no-repeat;padding:0;}
+    td.framerighthead {width:15px; height:13px; background:url(../images/frame-headbg.jpg) right top no-repeat;padding:0;}
+    td.framehead      {height:13px; background:url(../images/frame-headbg-center.jpg) left top repeat-x; background-position:-15px 0 ;padding:0;}
+    td.frameleftfoot  {width:15px; height:13px; background:url(../images/frame-footbg.jpg) left bottom no-repeat;padding:0;}
+    td.framerightfoot {width:15px; height:13px; background:url(../images/frame-footbg.jpg) right bottom no-repeat;padding:0;}
+    td.framefoot      {height:13px; background:url(../images/frame-footbg-center.jpg) left bottom repeat-x; background-position:-15px -3px;padding:0;}
+    td.frameleft      {width:15px; background:url(../images/frame-leftbg.jpg) left top repeat-y;padding:0;}
+    td.frameright     {width:15px; background:url(../images/frame-rightbg.jpg) right top repeat-y;padding:0;}
+    td.framecenter    {padding:0; background:#ffffff;}   
+
+
+ /* 用於登入頁和公告頁 */
+   /* login */
+    .font_login    { font-size:x-small; text-align:right; }
+    /*.font_login2   { background-image:url(../images/login/login_text.gif); background-repeat:no-repeat; background-position:center; }*/
+
+
+/* 字體 */
+
+   /* 訊息(紅色,大字) */
+    .font_message_r { color:#FF0000; font-size:20px; font-weight:bold; }
+   /* 訊息(粗體) */
+    .font_message_b { color:#000000; font-size:x-small; font-weight:bold; }
+   /* 訊息(一般) */
+    .font_message_n { color:#000000; font-size:x-small; font-weight:normal; }
+
+   /* 作業名稱 */
+    .font_title1    { color:#dc1c11; font-size:20px; line-height:150%; font-weight:bold; font-family:標楷體,Book Antiqua; }
+   /* 作業代號 */
+    .font_title2    { color:#367033; font-size:13px; font-family:Book Antiqua,標楷體; }
+   /* fieldset */
+    .font_fieldset  { color:#222a68; font-size:small; padding:2px;}
+	.font_fieldset2 { color:#f44415; font-size:small; }
+	fieldset        { padding:5px; font-weight:bold;  }
+	.color_fieldset { /*border-color:#222a68;*/ }
+
+
+/* 預設值 */
+   /* 表格(單筆格式) */
+    .table_sn { color:#000000; font-size:small; line-height:240%; vertical-align:middle; padding-top:2px; padding-bottom:2px; padding-left:4px; padding-right:4px;  border-collapse: collapse; }
+   /* 表格(多筆格式) */
+    .table_mt { color:#000000; font-size:small; line-height:190%; vertical-align:middle; padding-top:2px; padding-bottom:2px; padding-left:4px; padding-right:4px; border-collapse: collapse; }
+   /* 表格灰實線框 */
+    .table_border { border:1px solid #d0d0bf;}
+    
+   /* 表頭預設(置右) */
+    .td_head       { color:#222a68; text-align:right; font-weight:normal; padding:2px; border-bottom:1px dotted #d0d0bf; border-right:1px dotted #d0d0bf; padding-right:5px; }
+   /* 表頭多筆(瀏覽清單用) */
+    .td_headbws    { background:url(../images/table_titlebg-orange.jpg) repeat-x; color:#222a68; text-align:center; line-height:140%;  font-weight:normal; border:1px dotted #edd978; }	
+
+   /* 特殊表頭 */
+   /** 表頭(水平) **/
+    .td_headhrz    { background-color:#BEE4FC; color:#222a68; text-align:center; line-height:140%; font-weight:normal; border:1px dotted #edd978; }	
+   /** 表頭(垂直) **/
+    .td_headvrc    { background-color:#D7E4BC; color:#222a68; line-height:180%; font-weight:normal; border:1px dotted #edd978; }	
+   /* 合計*/
+    .td_headttl    { background-color:#FFE1C4; color:#222a68; line-height:180%; font-weight:normal; border:1px dotted #edd978;}
+
+   /* 內文預設(置左) */
+    .td_cont      { text-align:left; font-weight:normal; border-bottom:1px dotted #d0d0bf; border-right:1px solid #d0d0bf; padding-left:5px; }
+   
+    .td_cont /*a:link,*/ a:visited, a:active    { color:#333333; }
+    /*內文(無左右邊框)  */
+     .td_cont2      { text-align:left; font-weight:normal; border-bottom:1px dotted #d0d0bf;  padding-left:5px; }
+   /* 內文多筆(無對齊方式) */
+	.td_cont3     { font-weight:normal; border:1px dotted #d5d5d5; }
+    /*內文(模擬合併儲存隔) 統計報表：跨部單同仁建置統計 (TTDSc005Q1) 使用  */
+     .td_cont4      { text-align:left; font-weight:normal; border-left:none; border-top:1px dotted #d0d0bf; border-bottom:1px dotted #d0d0bf;border-right:1px dotted #d0d0bf;}
+     .td_cont5      { text-align:left; font-weight:normal; border-right:none; border-top:1px dotted #d0d0bf; border-bottom:1px dotted #d0d0bf;border-left:1px dotted #d0d0bf; }
+     .td_cont6      { text-align:left; font-weight:normal; border-right:none; border-left:none; border-top:1px dotted #d0d0bf; border-bottom:1px dotted #d0d0bf; }
+
+/* 背景變化 */
+   /* 表頭分隔(置左) */
+    .td_block    { background-color:#E3E6EA; line-height:14pt; text-align:left; }
+   /* 表頭(強調) */
+    .td_highh    { background-color:#d8dadf;}
+   /* 內文(預設) */
+    .td_highc    { background-color:#eee7e1; }
+
+   /* 內文(紅底-最紅) */
+    .td_highrr   { background-color:#FF6699; }
+   /* 內文(紅底-中等) */
+    .td_highr    { background-color:#FF9999; }
+   /* 內文(紅底-最淺) */
+    .td_highrp   { background-color:#FBDFD2; }
+   /* 內文(灰底) */
+    .td_highg    { background-color:#d8d8d8; }
+   /* 內文(橘底) */
+    .td_higho    { background-color:#FFBE7D; }
+   /* 內文(黃底) */
+    .td_highy    { background-color:#F4EF86; }
+
+
+/* 文字變化 */
+   /* 置左 */
+    .td_left   { text-align:left; }
+   /* 置中 */
+    .td_center { text-align:center; }
+   /* 置右 */
+    .td_right  { text-align:right; }
+   /* 底線 */
+    .td_underline { text-decoration:underline; }
+
+   /* 必填欄位(紅字) */
+    .td_must   { color:#dc1c11; }
+   /* 說明文字(灰字) */
+    .td_memo   { color:#666666; }
+   /* 強調文字(紅字) */
+    .td_hitr   { color:#dc1c11; }
+   /* 強調文字(藍字) */
+    .td_hitb   { color:#222a68; }
+   /* 強調文字(綠字) */
+    .td_hitg   { color:#367033; }
+
+   /* 強調粗體 */
+    .td_bold   { font-weight:bold;}
+   /* 正常字體 */
+    .td_nobold { font-weight:normal;}
+
+   /* 字高12 */
+    .td_line12 { line-height:12pt; }
+   /* 字高15 */
+    .td_line15 { line-height:15pt; }
+   /* 字高18 */
+    .td_line18 { line-height:18pt; }
+
+   /* 字體小一號 */
+    .td_xsmall { font-size:x-small }
+   /* 字體大號 */
+    .td_xlarge { font-size:x-large }
+
+
+/*按鈕*/
+	input.btn	    { background:url(../images/btn-bg.jpg) repeat-x; padding:3px; color:#333333; width:80px; height:26px; border:1px solid #efb914;}
+	input.btn_grey	{ background:url(../images/btn-bg_grey.jpg) repeat-x; padding:3px; color:#333333; width:80px; height:26px; border:1px solid #adadad;}	
+	input.btn40	    { width:40px;}
+	input.btn100	{ width:100px;}
+	input.btn_grey2	{ background:url(../images/btn-bg_grey.jpg) repeat-x; padding:3px; color:#333333; width:40px; height:26px; border:1px solid #adadad; margin:1px}	
+
+/*其他*/
+	img.wborder { border:2px solid #999999; padding:3px;}
+	hr { width:100%; height:1px; }
+
+
+/*
+連結狀態
+
+A:visited 是代表造訪過的連結
+A:link 是代表普通狀態的連結
+A:hover 是代表滑鼠移到連結
+A:active 是代表按下去連結
+直到目前的IE第六版，都只能支援將:hover、:active
+*/
+
+/*控制panel背景*/
+
+.panelleft { background:url(../images/GIS/panelbg.gif) left top; height:42px ; width:20px;}
+.panelright { background:url(../images/GIS/panelbg.gif) right top; height:42px ; width:20px; }
+.panelbg { background:url(../images/GIS/panelbg2.gif) left top repet-x; height:42px ; }
+	
+	
+/*new*/	
+
+

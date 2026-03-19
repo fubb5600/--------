@@ -1,0 +1,704 @@
+@charset "utf-8";
+/* 調整為 UTF-8，修正中文字顯示亂碼 */
+BODY
+{
+	margin: 0px;
+	background-color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ���� */
+#font_footer
+{
+	color: #979797;
+	text-align: center;
+	font-size: small;
+	padding: 10px 0 0 0;
+}
+
+/* �t�ΦW�� */
+.font_title_r
+{
+    padding: 10px;
+    color: #1874CD;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+    /* 修正字型為常見中文字型，避免亂碼或缺字 */
+    font-family: '標楷體', 'Microsoft JhengHei', 'PMingLiU', Arial, Helvetica, sans-serif;
+    line-height: 200%;
+    vertical-align: middle;
+}
+
+/* �n�J�b����T */
+.font_user
+{
+	color: #004676;
+	font-size: small;
+	font-weight: bold;
+}
+
+/*���s*/
+input.btn_grey
+{
+	background: url(../images/btn-bg_grey.jpg) repeat-x;
+	padding: 3px;
+	color: #333333;
+	width: 80px;
+	height: 26px;
+	border: 1px solid #adadad;
+}
+input.btn_grey_w
+{
+	background: url(../images/btn-bg_grey.jpg) repeat-x;
+	padding: 3px;
+	color: #333333;
+	width: 90px;
+	height: 26px;
+	border: 1px solid #adadad;
+}
+
+/* login */
+.font_login
+{
+	font-size: x-small;
+	text-align: right;
+}
+.font_login2
+{
+	background-image: url(../images/login/login_text.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* �̥~���@�h */
+table.content
+{
+	border: 0;
+	width: 98%;
+	margin: 0 5px 0 5px;
+	font-size: small;
+	padding: 0;
+}
+
+/* �~�������� */
+td.framelefthead
+{
+	width: 15px;
+	height: 13px;
+	background: url(../images/frame-headbg.jpg) left top no-repeat;
+	padding: 0;
+}
+td.framerighthead
+{
+	width: 15px;
+	height: 13px;
+	background: url(../images/frame-headbg.jpg) right top no-repeat;
+	padding: 0;
+}
+td.framehead
+{
+	height: 13px;
+	background: url(../images/frame-headbg.jpg) left top repeat-x;
+	background-position: -15px 0;
+	padding: 0;
+}
+td.frameleftfoot
+{
+	width: 15px;
+	height: 13px;
+	background: url(../images/frame-footbg.jpg) left bottom no-repeat;
+	padding: 0;
+}
+td.framerightfoot
+{
+	width: 15px;
+	height: 13px;
+	background: url(../images/frame-footbg.jpg) right bottom no-repeat;
+	padding: 0;
+}
+td.framefoot
+{
+	height: 15px;
+	background: url(../images/frame-footbg.jpg) left bottom repeat-x;
+	background-position: -15px 0px;
+	padding: 0;
+}
+td.frameleft
+{
+	width: 15px;
+	background: url(../images/frame-leftbg.jpg) left top repeat-y;
+	padding: 0;
+}
+td.frameright
+{
+	width: 15px;
+	background: url(../images/frame-rightbg.jpg) right top repeat-y;
+	padding: 0;
+}
+td.framecenter
+{
+	padding: 0;
+	background: #ffffff;
+}
+/*�w�qtable�~����r�˦�*/
+.text
+{
+	font-size: 16px;
+}
+
+/*--�w�q�n�J��T�˦�--*/
+.logininfo
+{
+	font-family: Times New Roman;
+	color: #0087c7;
+}
+
+/*--�w�qTable�ج[�˦�--*/
+.TableStley
+{
+	background-color: #FFFFFF;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #333333;
+}
+
+
+
+/*--�bTable���w�q���\��W�ټ˦�(Table���檺���D����)--*/
+.TableTitle
+{
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-align: center;
+	color: #0E97C0;
+}
+
+.SubTableTitle
+{
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+/*--�bTable���w�q����C���D�˦�(Table���檺���Y����)--*/
+.TableHead
+{
+	background-color: #FEEF98;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5px;
+	font-size: 16px;
+}
+.TableHead2
+{
+	background-color: #F7FDDF;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5px;
+	font-size: 16px;
+}
+
+/*--�bTable���w�q����C���D�˦�(Table���檺��������)--*/
+.TableBottom
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FEEF98', endColorstr='#FED56C', gradientType='0');
+	font-size: 12px;
+}
+
+/*--�bTable���w�qtd��r�˦�--*/
+.TableLabel
+{
+	background-color: #FEF0A3;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+}
+/*--�w�q�������*�˦�*/
+.TableLableNNull
+{
+	color: #FF0000;
+}
+
+/*--�bTable���w�qtd��r�������ȼ˦�--*/
+.TableLabelText
+{
+	font-family: "�s�ө���";
+	color: #1E1E48;
+	padding: 5px;
+	line-height: 20px;
+	font-size: 16px;
+}
+
+
+/*--�bTable���w�q����椸�˦�--*/
+.TableContent
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#E4E4F2', endColorstr='#C1C8D6', gradientType='0');
+}
+
+/*--�w�q�bTable��Button�˦�(�bTable�������e�椤)--*/
+.TableButton
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #99CCFF;
+}
+.TableButton2
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #E6F4B1;
+}
+.TableButton3
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #C4E1E1;
+}
+/*--�w�q�bTable��Button�˦�(�bTable�������e�椤)--*/
+.TableButtonDel
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #FF9797;
+}
+
+/*--�w�q�bTable��Button�˦�(���bTable�������e�椤)--*/
+.Button
+{
+	font-size: 9pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #000000;
+	border: 1px solid #5E5E5E;
+	background-color: #FFCC66;
+}
+
+
+/*���s*/
+input.btn_submit
+{
+	background: url(../images/btn-bg_grey.jpg) repeat-x;
+	padding: 3px;
+	color: #333333;
+	width: 80px;
+	height: 26px;
+	border: 1px solid #adadad;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+/*--�w�q���椤������*/
+.tabletable
+{
+	background-color: #FFFFFF;
+	padding: 5px;
+	line-height: 15px;
+	border: 1px solid #CCCCCC;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #333333;
+}
+/*�btable����table��td��r�˦�*/
+.Ta_Ta_Label
+{
+	text-align: center;
+	font-family: "�s�ө���";
+	font-size: 16px;
+	line-height: 20px;
+	color: #333333;
+}
+/*�btable����table��td��r�˦�*/
+.Ta_Ta_Label1
+{
+	background-color: #EEEEEE;
+	padding: 5px;
+}
+/*--�bTable���w�qtd��r�������ȼ˦�--*/
+.Ta_Ta_LabelText
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	background-color: #FFFFFF;
+	padding: 5px;
+	line-height: 15px;
+}
+/*--�w�qTextBox���󪺼˦�--*/
+.TextBox
+{
+	border: 1px solid #BDBEDB;
+	height: 20px;
+	line-height: 170%;
+	font-family: @�ө���;
+}
+
+/*--�w�qSelect���󪺼˦�--*/
+.Select
+{
+	font-weight: normal;
+	font-size: 16px;
+}
+
+/*--�w�q���������W�챵�˦���--*/
+a:link
+{
+	text-decoration: none;
+	color: #004676;
+	font-size: small;
+	font-weight: bold;
+}
+a:active
+{
+	text-decoration: blink;
+}
+a:hover
+{
+	text-decoration: underline;
+	color: #004676;
+}
+a:visited
+{
+	text-decoration: none;
+	color: #004676;
+}
+
+
+
+.linkpage
+{
+	font-size: 12px;
+}
+/*--�w�q�������������D�˦���--*/
+.headline
+{
+	font-size: 16px;
+	color: #445566;
+	font-weight: bold;
+}
+/*--�b���nTable���w�qtd��r�˦�--*/
+.TableLabel_2
+{
+	background-color: #E7E7E7;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-size: 16px;
+}
+/*--�w�q�C���˦�*/
+.Listtable1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	background-color: #FFFFFF;
+	padding: 5px;
+	height: 30px;
+	font-size: 16px;
+}
+.Listtable2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	background-color: #fffbf0;
+	padding: 5px;
+	height: 30px;
+	font-size: 16px;
+}
+
+/*--�w�q�Ƶ��˦�*/
+.TableLableNote
+{
+	color: #CC0000;
+	font-size: 12px;
+}
+/*--�w�q���[���W�˦�*/
+.TableLableMemo
+{
+	color: #39c;
+	font-size: 12px;
+}
+/*--�w�q�l��ʺA���*/
+.maildata
+{
+	color: #34599E;
+	font-family: "�s�ө���";
+	font-size: 16px;
+	line-height: 20px;
+}
+/*--�w�q�s�i��X���A*/
+.ad_sell1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	padding: 5px;
+	line-height: 25px;
+	background-color: #FFE6EA;
+	text-align: center;
+}
+/*--�w�q�s�i����X���A*/
+.ad_sell0
+{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333333;
+	padding: 5px;
+	line-height: 25px;
+	background-color: #FFFFFF;
+	text-align: center;
+}
+/*--�w�q�s�i���R-�I�\�v�x�s��榡*/
+.ad_analyse0
+{
+	background-color: #F6F6F6;
+	text-align: right;
+}
+/*--�w�q�s�i���R-�P����x�s��榡*/
+.ad_analyse1
+{
+	background-color: #FFFFFF;
+	text-align: right;
+}
+/*--�w�q�s�i-�Z�n��������Ѯ榡*/
+.tag_yellow
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	background-color: #FEF4D3;
+	padding-left: 10px;
+	vertical-align: middle;
+	color: #FFFFFF;
+}
+/*--�w�q�{�b��m�榡*/
+.site_text
+{
+	font-size: 16px;
+	font-family: �s�ө���;
+	color: #666666;
+	padding-top: 7px;
+	line-height: 250%;
+}
+
+/*--�w�q���檺���D���h�I����*/
+.tabletitlebar
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(gradientType='0',startColorstr='#6699CC',endColorstr='#FFFFFF');
+}
+
+/*--�b���nTable���w�qtd��r�˦�--*/
+.TableLabel_3
+{
+	background-color: #EFFFBF;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-size: 16px;
+}
+/*--�w�q�b�d�߸s�ժ��˦�(���bTable�������e�椤)--*/
+.SearchGroup-y
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #FFCC00;
+	background-color: #FFFFDF;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+
+/*--�w�q�b�d�߸s�ժ��˦�(���bTable�������e�椤)--*/
+.SearchGroup-P
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #FF99FF;
+	background-color: #FFE9FF;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+
+/*--�w�q�b�d�߸s�ժ��˦�(���bTable�������e�椤)--*/
+.SearchGroup-B
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #66CCFF;
+	background-color: #DFF4FF;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+/*--�w�q�b�d�߸s�ժ��˦�(���bTable�������e�椤)--*/
+.SearchGroup-G
+{
+	font-size: 12pt;
+	text-align: center;
+	padding-top: 2px;
+	color: #333333;
+	border: 1px solid #C9F52E;
+	background-color: #EFFCC2;
+	padding-bottom: 3px;
+	line-height: 140%;
+}
+/*--�w�q�C�L������˦�--*/
+.print_table_height
+{
+	height: 24px;
+	font-size: 16px;
+}
+/*--�w�q�C�L��������D���˦�--*/
+.print_table_title
+{
+	height: 24px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 16px;
+}
+/*--�w�q�C�L��������D�˦�--*/
+.print_table_headline
+{
+	font-size: 20px;
+	color: #445566;
+	font-weight: bold;
+}
+/*--�b���nTable���w�qtd��r�˦�--*/
+.TableLabel_4
+{
+	background-color: #FFE6FF;
+	text-align: center;
+	line-height: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-size: 16px;
+}
+/*--�w�q�S���W���Хܼ˦�--*/
+.keyword
+{
+	text-align: center;
+	color: #0066CC;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+/*--�w�qGridView�˦�--*/
+.GridView
+{
+	background-color: #FFFFFF;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #333333;
+}
+
+.currency
+{
+	text-align: right;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #0066CC;
+	font-weight: bold;
+}
+
+
+ /* ����(�浧�榡) */
+    .table_sn { color:#000000; font-size:small; line-height:240%; vertical-align:middle; padding-top:2px; padding-bottom:2px; padding-left:4px; padding-right:4px;  border-collapse: collapse; }
+   /* ����(�h���榡) */
+    .table_mt { color:#000000; font-size:small; line-height:190%; vertical-align:middle; padding-top:2px; padding-bottom:2px; padding-left:4px; padding-right:4px; border-collapse: collapse; }
+   /* ����ǹ�u�� */
+    .table_border { border:1px solid #d0d0bf;}
+    
+   /* ���Y�w�](�m�k) */
+    .td_head       { color:#222a68; text-align:right; font-weight:normal; padding:2px; border-bottom:1px dotted #d0d0bf; border-right:1px dotted #d0d0bf; padding-right:5px; }
+
+   /* �S�����Y */
+   /** ���Y(����) **/
+    .td_headhrz    { background-color:#deebfe; color:#222a68; text-align:center; line-height:140%; font-weight:normal; border:1px dotted #edd978; }	
+   /** ���Y(����) **/
+    .td_headvrc    { background-color:#ddf5b7; color:#222a68; line-height:180%; font-weight:normal; border:1px dotted #edd978; }	
+   /* �X�p*/
+    .td_headttl    { background-color:#ffdada; color:#222a68; line-height:180%; font-weight:normal; border:1px dotted #edd978;}
+
+   /* ����w�](�m��) */
+    .td_cont      { text-align:left; font-weight:normal; border-bottom:1px dotted #d0d0bf; border-right:1px solid #d0d0bf; padding-left:5px; }
+    .td_cont /*a:link,*/ a:visited, a:active    { color:#333333; }
+   /* ����h��(�L����覡) */
+	.td_cont3     { font-weight:normal; border:1px dotted #d5d5d5; }
+    
+ 
+/* �I���ܤ� */
+   /* ���Y���j(�m��) */
+    .td_block    { background-color:#E3E6EA; line-height:14pt; text-align:left; }
+   /* ���Y(�j��) */
+    .td_highh    { background-color:#CBDFFE;}
+   /* ���Y(�j�կ���) */
+    .td_highh2   { background-color:#F9E0FC;}
+   /* ����(�j��) */
+    .td_highc    { background-color:#ebf3ff; }
+   /* ����(�j�կ���) */
+    .td_highc2  { background-color:#FCF7FD; }
+
+
+/* ��r�ܤ� */
+   /* �m�� */
+    .td_left   { text-align:left; padding-left:5px; }
+   /* �m�� */
+    .td_center { text-align:center; }
+   /* �m�k */
+    .td_right  { text-align:right; padding-right:5px; }
+   /* ���u */
+    .td_underline { text-decoration:underline; }
+
+   /* �������(���r) */
+    .td_must   { color:#dc1c11; }
+   /* ������r(�Ǧr) */
+    .td_memo   { color:#666666; }
+   /* ������r(��r) */
+    .td_color   { color:#367033; }
+   /* fielsset���C�� */
+    .td_fieldset  { color:#222a68; font-weight:bold; padding:2px;}
+
+   /* �j�ղ��� */
+    .td_bold   { font-weight:bold;}
+   /* ���`�r�� */
+    .td_nobold { font-weight:normal;}
+
+   /* �r��12 */
+    .td_line12 { line-height:12pt; }
+   /* �r��15 */
+    .td_line15 { line-height:15pt; }
+   /* �r��18 */
+    .td_line18 { line-height:18pt; }
+
+   /* �r��p�@�� */
+    .td_xsmall { font-size:x-small }
+   /* �r��j�� */
+    .td_xlarge { font-size:x-large }
+
+/*�d�߱���r��*/
+.color_fieldset{margin-right:20px;padding-left:10px;padding-right:10px;padding-bottom:5px}
+.font_fieldset{font-size:small;font-weight:bold;color:#222a68;padding:2px;}
+

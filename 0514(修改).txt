@@ -1,0 +1,14 @@
+//標案項目匯入 一般人查詢
+
+
+INSERT INTO [TDOS].[dbo].[a_role_function] ([role_id]
+      ,[task_id]
+      ,[button_type]
+      ,[status]
+      ,[memo]
+      ,[create_date]
+      ,[create_user]
+      ,[update_date]
+      ,[update_user])
+	  VALUES ('CRS_USER','TDOSe002','query','O','',GETDATE(),'ADMIN',GETDATE(),'ADMIN')
+

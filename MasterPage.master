@@ -1,0 +1,173 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <%=lblWebName.Text%>
+    </title>    
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <script src="../js/fill.js" type="text/javascript"></script>
+    <script src="../js/buttonAction.js" type="text/javascript"></script>
+    <script src="../js/Validate.js" type="text/javascript"></script>   
+    <script src="../js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.8.22.custom.min.js" type="text/javascript"></script>
+    <script src="../js/chineseDatepicker.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../menu.js"></script>
+    <script type="text/javascript" src="../js/tinybox.js"></script>
+    <link type="text/css" href="menu.css" rel="stylesheet" />
+    <link type="text/css" href="css/CommStyle.css" rel="stylesheet" />
+    <link type="text/css" href="css/jquery-ui-1.8.22.custom.css" rel="stylesheet" />
+    <link href="css/tinybox.css" rel="stylesheet" type="text/css" />       
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <style type="text/css">
+        *
+        {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body
+        {
+            /*background-color: #F2F2F2;*/
+            /**overflow: hidden;*/
+        }
+        div#menu
+        {
+            display: block; /*top: 0px;
+            left: 0px;*/
+            width: 100%; /*background: transparent url(../images/header_bg.gif) repeat-x 0 0;)*/
+        }
+        div#copyright
+        {
+            display: none;
+        }
+    </style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        DatePicker();
+    });
+
+    function DatePicker() {
+        $('.date').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function (dateText, inst) { }
+        });
+    }
+
+    //       $(document).ready(function () {
+
+    //           $('.date').datepicker({
+    //               changeMonth: true,
+    //               changeYear: true,
+    //               onSelect: function (dateText, inst) { }
+    //           });
+
+    //       });
+       
+    </script>
+    <script type="text/javascript">
+        // Session 倒數（分鐘取自伺服器設定）
+        var sessionTimeoutMinutes = <%= Session.Timeout %>;
+        var countdownInterval = null;
+        var countdownRemainingSecs = 0;
+
+        function formatTime(seconds) {
+            var m = Math.floor(seconds / 60);
+            var s = seconds % 60;
+            return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+        }
+
+        function updateCountdownUI() {
+            // 使用 clientID 後綴查找，避免命名容器造成的 ID 變化
+            var el = document.querySelector('[id$="sessionCountdown"]');
+            if (el) el.innerHTML = formatTime(countdownRemainingSecs);
+        }
+
+        function tickCountdown() {
+            countdownRemainingSecs--;
+            if (countdownRemainingSecs <= 0) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+                // 到時自動導回登入頁
+                window.location.href = '<%= ResolveUrl("~/login.aspx?expired=1") %>';
+                return;
+            }
+            updateCountdownUI();
+        }
+
+        function startSessionCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            countdownRemainingSecs = sessionTimeoutMinutes * 60;
+            updateCountdownUI();
+            countdownInterval = setInterval(tickCountdown, 1000);
+        }
+
+        $(function () {
+            // 首次進入或每次換頁，重啟倒數
+            startSessionCountdown();
+            // 局部更新（UpdatePanel）完成後也重置倒數，避免與伺服器 Session 滑動逾時不同步
+            try {
+                if (typeof (Sys) !== 'undefined' && Sys.WebForms && Sys.WebForms.PageRequestManager) {
+                    var prm = Sys.WebForms.PageRequestManager.getInstance();
+                    prm.add_endRequest(function () { startSessionCountdown(); });
+                }
+            } catch (e) { }
+        });
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="display: block; width: 100%; height: 80px; background: transparent url(../images/top_title_bg.jpg)">
+        <div style="float: left; display: block; margin: 0px;">
+            <div style="float: left">
+                <img alt="圖示" src="../images/top_title_logo.jpg" /></div>
+            <div class="font_title_r" style="float: left; padding-top: 20px;">
+                <asp:Label ID="lblWebName" runat="server" Text=""></asp:Label></div>
+        </div>
+        <div style="float: right; display: block; padding: 5px;">
+            <img alt="圖示" src="../images/help.png" align="absmiddle" width="28px" />
+            <asp:LinkButton ID="lblhelp" runat="server" OnClick="lblhelp_Click" Text="&#x7CFB;&#x7D71;&#x8AAA;&#x660E;"></asp:LinkButton>
+            <span class="font_user">|</span>
+            <img alt="圖示" src="../images/1338985760_id-card.png" align="absmiddle" hspace="5" />
+            <span class="font_user">&#x4F7F;&#x7528;&#x8005;&#xFF1A;<asp:Label ID="lblUserInfo" runat="server" Text=""></asp:Label>|</span>
+            <span class="font_user">&#x767B;&#x51FA;&#x5012;&#x6578;&#xFF1A;<asp:Label ID="sessionCountdown" runat="server" Text="--:--"></asp:Label>|</span>
+            <asp:LinkButton ID="lblogout" runat="server" OnClick="lblogout_Click" OnClientClick="return confirm('確定登出本系統?')"
+                Text="&#x767B;&#x51FA;"></asp:LinkButton>
+        </div>
+    </div>
+    <div style="clear: both;">
+    </div>
+    <asp:Literal ID="ltlMenu" runat="server"></asp:Literal>
+    <div style="padding-top: 5px; padding-bottom: 40px;">
+        <div style="float: left;">
+            <img src="../images/Location-left.jpg" alt="現在位置" width="125" height="32" />
+        </div>
+        <div style="float: left; display: block; width: 434px; height: 32px; background: transparent url(../images/Location-center.jpg)">
+            <asp:Label ID="lblTaskName" runat="server" CssClass="site_text" Text=""></asp:Label>
+        </div>
+    </div>
+    <div style="clear: both;">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    <div id="font_footer" style="clear: both">
+        最佳瀏覽環境：IE 7 / 8 / 9．螢幕解析度 1024*768．<br />
+        臺北市政府環境保護局版權所有 2015 &copy; Copyright All Rights Reserved</div>
+    </form>
+    <asp:Label ID="sysLabel" runat="server" Visible="False">
+        <asp:TextBox ID="OLD_TASK" runat="server" Visible="False"></asp:TextBox>
+    </asp:Label>
+    <div id="copyright" style="display: none;">
+        Copyright &copy; 2015 <a href="http://apycom.com/">Apycom jQuery Menus</a></div>
+</body>
+</html>

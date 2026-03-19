@@ -1,0 +1,105 @@
+/* default 的連結css會干擾 asp:menu的字的顏色*/
+/* 有class name的連結css只有a:link會干援 asp:menu的字的顏色*/
+
+/* menu背景 */
+/*td.blueborder { border-bottom:5px solid #2aabbe; background:#666666; padding:0 0 0 10px;}*/
+/*td.tabmenu	{padding:6px 0 0 0;}*/
+
+.menubg
+{
+    background: url(../images/menubg.jpg) left top no-repeat;
+    padding: 0px 0px 0px 130px;
+}
+.menutail
+{
+    background: url(../images/menubg-tail.jpg) left top no-repeat;
+    width: 16px;
+    height: 43px;
+    float: left;
+}
+
+.adjustedZIndex
+{
+    z-index: 1;
+}
+
+
+.MenuStyle
+{
+    font-size: small;
+    height: 32px;
+    font-family: 新細明體;
+}
+
+.StaticMenuStyle
+{
+    background: transparent;
+    color: #1a1a1a;
+    padding: 2px 0px 2px 0px;
+}
+.StaticMenuItemStyle
+{
+    background: transparent;
+    color: #1a1a1a;
+    padding: 10px 4px 10px 4px;
+    border-style: none;
+    font-weight: bold;
+}
+.StaticSelectedStyle
+{
+    background: #f26d1b;
+    color: White;
+    filter: Alpha(opacity=80);
+    opacity: 0.8;
+}
+/*IE透明:filter: Alpha(opacity=80), FF透明:opacity:0.8;*/
+.StaticHoverStyle
+{
+    background: #f26d1b;
+    color: White;
+    filter: Alpha(opacity=80);
+    opacity: 0.8;
+}
+
+.DynamicMenuStyle
+{
+    background: transparent;
+    color: Black;
+}
+.DynamicMenuItemStyle
+{
+    background: rgb(245,224,53);
+    color: Black;
+    padding: 8px 2px 8px 2px;
+    border-width: 0px;
+    border-style: solid;
+    border-color: #999999;
+}
+.DynamicHoverStyle
+{
+    background: #f26d1b;
+    color: White;
+}
+.DynamicSelectedStyle
+{
+    background: #f26d1b;
+    color: White;
+}
+
+
+/*
+連結狀態
+
+
+A:visited 是代表造訪過的連結
+A:link 是代表普通狀態的連結
+A:hover 是代表滑鼠移到連結
+A:active 是代表按下去連結
+直到目前的IE第六版，都只能支援將:hover、:active
+*/
+/*
+  a:link, a:visited,  a:active
+    { font-size:small; color:#000000; font-family:Book Antiqua,新細明體; }
+  a:hover       
+    { font-size:small; color:#FFFFFF; font-family:Book Antiqua,新細明體; }
+*/
